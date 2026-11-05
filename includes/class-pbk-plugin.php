@@ -21,6 +21,11 @@ class PBK_Plugin {
 		}
 		add_action( 'wp_ajax_pbk_restore_start', array( __CLASS__, 'ajax_restore_start' ) );
 		add_action( 'pbk_cleanup', array( 'PBK_Job', 'cleanup' ) );
+		add_action( 'pbk_cleanup', array( 'PBK_Upload', 'cleanup' ) );
+		PBK_Upload::init();
+		if ( is_admin() ) {
+			PBK_Admin::init();
+		}
 		if ( ! wp_next_scheduled( 'pbk_cleanup' ) ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'pbk_cleanup' );
 		}

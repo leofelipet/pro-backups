@@ -1,0 +1,227 @@
+- generic [ref=f2e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f2e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f2e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f2e7]:
+      - listitem [ref=f2e8]:
+        - link "Dashboard" [ref=f2e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [aria-hidden] [ref=f2e10]: 
+        - list [ref=f2e12]:
+          - listitem [ref=f2e13]:
+            - link "Home" [ref=f2e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f2e15]:
+            - link "Updates" [ref=f2e16] [cursor=pointer]:
+              - /url: update-core.php
+      - listitem [aria-hidden] [ref=f2e17]
+      - listitem [ref=f2e19]:
+        - link "Posts" [ref=f2e20] [cursor=pointer]:
+          - /url: edit.php
+          - generic [aria-hidden] [ref=f2e21]: 
+        - list [ref=f2e23]:
+          - listitem [ref=f2e24]:
+            - link "All Posts" [ref=f2e25] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f2e26]:
+            - link "Add Post" [ref=f2e27] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f2e28]:
+            - link "Categories" [ref=f2e29] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f2e30]:
+            - link "Tags" [ref=f2e31] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f2e32]:
+        - link "Media" [ref=f2e33] [cursor=pointer]:
+          - /url: upload.php
+          - generic [aria-hidden] [ref=f2e34]: 
+        - list [ref=f2e36]:
+          - listitem [ref=f2e37]:
+            - link "Library" [ref=f2e38] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f2e39]:
+            - link "Add Media File" [ref=f2e40] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f2e41]:
+        - link "Pages" [ref=f2e42] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [aria-hidden] [ref=f2e43]: 
+        - list [ref=f2e45]:
+          - listitem [ref=f2e46]:
+            - link "All Pages" [ref=f2e47] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f2e48]:
+            - link "Add Page" [ref=f2e49] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f2e50]:
+        - link "Comments" [ref=f2e51] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [aria-hidden] [ref=f2e52]: 
+      - listitem [aria-hidden] [ref=f2e54]
+      - listitem [ref=f2e56]:
+        - link "Appearance" [ref=f2e57] [cursor=pointer]:
+          - /url: themes.php
+          - generic [aria-hidden] [ref=f2e58]: 
+        - list [ref=f2e60]:
+          - listitem [ref=f2e61]:
+            - link "Themes" [ref=f2e62] [cursor=pointer]:
+              - /url: themes.php
+          - listitem [ref=f2e63]:
+            - link "Editor" [ref=f2e64] [cursor=pointer]:
+              - /url: site-editor.php
+          - listitem [ref=f2e65]:
+            - link "Fonts" [ref=f2e66] [cursor=pointer]:
+              - /url: font-library.php
+      - listitem [ref=f2e67]:
+        - link "Plugins" [ref=f2e68] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [aria-hidden] [ref=f2e69]: 
+        - list [ref=f2e71]:
+          - listitem [ref=f2e72]:
+            - link "Installed Plugins" [ref=f2e73] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f2e74]:
+            - link "Add Plugin" [ref=f2e75] [cursor=pointer]:
+              - /url: plugin-install.php
+      - listitem [ref=f2e76]:
+        - link "Users" [ref=f2e77] [cursor=pointer]:
+          - /url: users.php
+          - generic [aria-hidden] [ref=f2e78]: 
+        - list [ref=f2e80]:
+          - listitem [ref=f2e81]:
+            - link "All Users" [ref=f2e82] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f2e83]:
+            - link "Add User" [ref=f2e84] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f2e85]:
+            - link "Profile" [ref=f2e86] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f2e87]:
+        - link "Tools" [ref=f2e88] [cursor=pointer]:
+          - /url: tools.php
+          - generic [aria-hidden] [ref=f2e89]: 
+        - list [ref=f2e91]:
+          - listitem [ref=f2e92]:
+            - link "Available Tools" [ref=f2e93] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f2e94]:
+            - link "Import" [ref=f2e95] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f2e96]:
+            - link "Export" [ref=f2e97] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f2e98]:
+            - link "Site Health" [ref=f2e99] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f2e100]:
+            - link "Export Personal Data" [ref=f2e101] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f2e102]:
+            - link "Erase Personal Data" [ref=f2e103] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f2e104]:
+            - link "Theme File Editor" [ref=f2e105] [cursor=pointer]:
+              - /url: theme-editor.php
+          - listitem [ref=f2e106]:
+            - link "Plugin File Editor" [ref=f2e107] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f2e108]:
+        - link "Pro Backups" [ref=f2e109] [cursor=pointer]:
+          - /url: admin.php?page=pro-backups
+          - generic [aria-hidden] [ref=f2e110]: 
+      - listitem [ref=f2e112]:
+        - link "Settings" [ref=f2e113] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [aria-hidden] [ref=f2e114]: 
+        - list [ref=f2e116]:
+          - listitem [ref=f2e117]:
+            - link "General" [ref=f2e118] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f2e119]:
+            - link "Connectors" [ref=f2e120] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=f2e121]:
+            - link "Writing" [ref=f2e122] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f2e123]:
+            - link "Reading" [ref=f2e124] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f2e125]:
+            - link "Discussion" [ref=f2e126] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f2e127]:
+            - link "Media" [ref=f2e128] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f2e129]:
+            - link "Permalinks" [ref=f2e130] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f2e131]:
+            - link "Privacy" [ref=f2e132] [cursor=pointer]:
+              - /url: options-privacy.php
+      - listitem [ref=f2e133]:
+        - button "Collapse Main menu" [expanded] [ref=f2e134] [cursor=pointer]:
+          - generic [ref=f2e136]: Collapse Menu
+  - generic [ref=f2e137]:
+    - generic [ref=f2e138]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f2e139]:
+            - menuitem "About WordPress" [ref=f2e140] [cursor=pointer]
+          - group [ref=f2e143]:
+            - menuitem "PBK src" [ref=f2e144] [cursor=pointer]
+          - group [ref=f2e145]:
+            - menuitem "Ctrl+K Open command palette" [ref=f2e146] [cursor=pointer]:
+              - generic [ref=f2e148]:
+                - text: Ctrl+K
+                - generic [ref=f2e149]: Open command palette
+          - group [ref=f2e150]:
+            - menuitem "0 Comments in moderation" [ref=f2e151] [cursor=pointer]:
+              - generic [aria-hidden] [ref=f2e153]: "0"
+          - group [ref=f2e155]:
+            - menuitem "New" [ref=f2e156] [cursor=pointer]
+        - menu [ref=f2e159]:
+          - group [ref=f2e160]:
+            - menuitem "Howdy, admin" [ref=f2e161] [cursor=pointer]
+    - main [ref=f2e162]:
+      - generic [ref=f2e164]:
+        - heading "Pro Backups" [level=1] [ref=f2e165]
+        - navigation [ref=f2e166]:
+          - link "Backups" [ref=f2e167] [cursor=pointer]:
+            - /url: http://localhost:8092/wp-admin/admin.php?page=pro-backups&tab=backups
+        - generic [ref=f2e168]:
+          - generic [ref=f2e169]:
+            - paragraph [ref=f2e170]:
+              - strong [ref=f2e171]: Drop a .wpress file here to upload and restore it
+            - paragraph [ref=f2e172]: "No size limit: the file is sent in small parts and the upload resumes after connection drops."
+            - generic [ref=f2e173] [cursor=pointer]: Choose file
+          - paragraph [ref=f2e174]:
+            - text: Very large file or slow connection? Upload it by FTP/SFTP to
+            - code [ref=f2e175]: /var/www/html/wp-content/pro-backups
+            - text: and it appears in the list below.
+          - heading "Backups on this server" [level=2] [ref=f2e176]
+          - table [ref=f2e177]:
+            - rowgroup [ref=f2e178]:
+              - row [ref=f2e179]:
+                - columnheader "File" [ref=f2e180]
+                - columnheader "Date" [ref=f2e181]
+                - columnheader "Size" [ref=f2e182]
+                - columnheader [ref=f2e183]
+            - rowgroup [ref=f2e184]:
+              - row [ref=f2e185]:
+                - cell "full-encrypted-gzip.wpress" [ref=f2e186]
+                - cell "November 5, 2026 6:12 pm" [ref=f2e187]
+                - cell "14.7 MB" [ref=f2e188]
+                - cell [ref=f2e189]:
+                  - button "Restore" [ref=f2e190] [cursor=pointer]
+  - contentinfo [ref=f2e191]:
+    - paragraph [ref=f2e192]:
+      - generic [ref=f2e193]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f2e194] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f2e195]: Version 7.1.4

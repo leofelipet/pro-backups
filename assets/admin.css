@@ -1,0 +1,20 @@
+.pbk-tab { margin-top: 16px; max-width: 1100px; }
+.pbk-drop { border: 2px dashed #8c8f94; border-radius: 6px; padding: 28px; text-align: center; background: #fff; }
+.pbk-drop.pbk-over { border-color: #2271b1; background: #f0f6fc; }
+.pbk-backups td { vertical-align: middle; }
+.pbk-actions { text-align: right; white-space: nowrap; }
+.pbk-actions .button { margin-left: 4px; }
+.pbk-tag { font-size: 11px; background: #f0f0f1; border-radius: 3px; padding: 1px 6px; color: #50575e; }
+.pbk-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, .55); z-index: 100000; display: flex; align-items: center; justify-content: center; }
+.pbk-modal[hidden] { display: none; }
+.pbk-modal-box { background: #fff; border-radius: 6px; padding: 24px; width: min(560px, 92vw); max-height: 90vh; overflow: auto; box-shadow: 0 10px 40px rgba(0, 0, 0, .3); }
+.pbk-modal-box h2 { margin-top: 0; word-break: break-all; }
+.pbk-progress { position: relative; height: 22px; background: #f0f0f1; border-radius: 11px; overflow: hidden; margin: 12px 0; }
+.pbk-progress-bar { height: 100%; width: 0; background: #2271b1; transition: width .3s; }
+.pbk-progress-text { position: absolute; inset: 0; text-align: center; line-height: 22px; font-weight: 600; mix-blend-mode: difference; color: #fff; }
+.pbk-modal-message { white-space: pre-wrap; }
+.pbk-modal-actions { margin-top: 16px; text-align: right; }
+.pbk-modal-actions .button { margin-left: 6px; }
+.pbk-log { max-height: 200px; overflow: auto; background: #f6f7f7; padding: 8px; font-size: 12px; white-space: pre-wrap; }
+.pbk-form th { width: 220px; }
+@media (prefers-reduced-motion: reduce) { .pbk-progress-bar { transition: none; } }

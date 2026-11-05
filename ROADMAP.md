@@ -72,10 +72,13 @@ vários GB sem timeout.
       pasta de storage protegida (`.htaccess`, `index.php`, `web.config`); arquivos de job com guarda `<?php exit; ?>`.
 - Teste de ponta a ponta: `tests/integration/restore.sh` (backups reais do AI1WM, sem/ com criptografia, gzip, erro de bz2).
 
-### Fase 3 — Sem limite de tamanho (o recurso principal)
-- [ ] Uploader JS em chunks de 5 MB, com retentativas e retomada; checagem de espaço em disco.
-- [ ] **Restaurar arquivo já no servidor:** o usuário envia o `.wpress` por FTP para
-      `wp-content/pro-backups/` e clica em "Restaurar", sem passar por nenhum limite de upload.
+### Fase 3 — Sem limite de tamanho (o recurso principal) ✅
+- [x] Uploader JS em chunks (até 5 MB, ajustado ao `upload_max_filesize` do servidor), com retentativas, backoff e
+      ressincronização de offset; checagem de espaço em disco (`includes/class-pbk-upload.php`, `assets/admin.js`).
+- [x] **Restaurar arquivo já no servidor:** qualquer `.wpress` enviado por FTP para `wp-content/pro-backups/`
+      (ou já existente em `wp-content/ai1wm-backups/`) aparece na lista com botão "Restore".
+- Testes: `tests/integration/upload.php` (retomada/duplicado/lacuna) e `tests/integration/ui-restore.sh`
+  (navegador: 15 MB enviados com `upload_max_filesize=2M`, senha, confirmação, restore completo).
 
 ### Fase 4 — Página de backups e WP-CLI
 - [ ] Listar / restaurar / baixar / excluir.
