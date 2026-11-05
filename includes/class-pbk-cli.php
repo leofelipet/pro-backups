@@ -1,6 +1,6 @@
 <?php
 /**
- * WP-CLI: wp pro-backups list|restore|delete
+ * WP-CLI: wp pro-backups list|restore|backup|delete
  *
  * @package ProBackups
  */
@@ -53,6 +53,37 @@ class PBK_CLI {
 			)
 		);
 		$this->drive( $job, ! empty( $assoc['yes'] ) );
+	}
+
+	/**
+	 * Creates a backup.
+	 *
+	 * [--name=<name>]
+	 * : File name (.wpress). Default: site-date.
+	 *
+	 * [--password=<password>]
+	 * : Encrypt the backup (AES-256).
+	 *
+	 * [--compression=<type>]
+	 * : gzip or bzip2.
+	 *
+	 * [--exclude=<what>]
+	 * : Comma list: media,plugins,themes,inactive-plugins,inactive-themes,cache,database,spam,revisions.
+	 *
+	 * [--exclude-files=<paths>]
+	 * : Comma list of paths relative to wp-content.
+	 *
+	 * [--exclude-tables=<tables>]
+	 * : Comma list of table names.
+	 */
+	public function backup( $args, $assoc ) {
+		try {
+			$job = PBK_Exporter::start( PBK_Exporter::options_from_cli( $assoc ) );
+		} catch ( PBK_Exception $e ) {
+			WP_CLI::error( $e->getMessage() );
+		}
+		$status = $this->drive( $job, true );
+		WP_CLI::log( $status['result']['path'] );
 	}
 
 	/**

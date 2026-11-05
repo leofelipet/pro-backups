@@ -20,6 +20,7 @@ class PBK_Plugin {
 			add_action( "wp_ajax_nopriv_pbk_$action", array( __CLASS__, "ajax_$action" ) );
 		}
 		add_action( 'wp_ajax_pbk_restore_start', array( __CLASS__, 'ajax_restore_start' ) );
+		add_action( 'wp_ajax_pbk_export_start', array( __CLASS__, 'ajax_export_start' ) );
 		add_action( 'pbk_cleanup', array( 'PBK_Job', 'cleanup' ) );
 		add_action( 'pbk_cleanup', array( 'PBK_Upload', 'cleanup' ) );
 		PBK_Upload::init();
@@ -72,6 +73,15 @@ class PBK_Plugin {
 		try {
 			$file = PBK_Storage::find( isset( $_POST['file'] ) ? sanitize_file_name( wp_unslash( $_POST['file'] ) ) : '' );
 			self::send_job( PBK_Importer::start( $file ) );
+		} catch ( PBK_Exception $e ) {
+			wp_send_json_error( array( 'message' => $e->getMessage() ), 400 );
+		}
+	}
+
+	public static function ajax_export_start() {
+		self::guard();
+		try {
+			self::send_job( PBK_Exporter::start( PBK_Exporter::options_from_request( wp_unslash( $_POST ) ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- sanitized in options_from_request()
 		} catch ( PBK_Exception $e ) {
 			wp_send_json_error( array( 'message' => $e->getMessage() ), 400 );
 		}

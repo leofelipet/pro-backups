@@ -10,10 +10,12 @@
 
 	/** POST to admin-ajax. Resolves with data, rejects with Error(message) (err.fatal = no point retrying). */
 	function post(action, fields, file) {
-		var body = new FormData();
-		body.append('action', action);
-		body.append('nonce', PBK.nonce);
-		Object.keys(fields || {}).forEach(function (k) { body.append(k, fields[k]); });
+		var body = fields instanceof FormData ? fields : new FormData();
+		body.set('action', action);
+		body.set('nonce', PBK.nonce);
+		if (!(fields instanceof FormData)) {
+			Object.keys(fields || {}).forEach(function (k) { body.append(k, fields[k]); });
+		}
 		if (file) { body.append('chunk', file, 'chunk'); }
 		return fetch(PBK.ajax, { method: 'POST', body: body, credentials: 'same-origin' }).then(function (res) {
 			return res.text().then(function (text) {
@@ -232,7 +234,15 @@
 		drop.addEventListener('drop', function (e) { if (e.dataTransfer.files[0]) { upload(e.dataTransfer.files[0]); } });
 	}
 
-	// Export page and other screens start jobs through this hook.
+	var exportForm = $('#pbk-export-form');
+	if (exportForm) {
+		exportForm.addEventListener('submit', function (e) {
+			e.preventDefault();
+			window.PBKRunJob(t.creating, 'pbk_export_start', new FormData(exportForm));
+		});
+	}
+
+	// Other screens start jobs through this hook.
 	window.PBKRunJob = function (title, action, fields) {
 		modal.open(title);
 		return post(action, fields).then(runJob, function (err) {

@@ -85,9 +85,12 @@ vários GB sem timeout.
 - [x] `wp pro-backups restore <arquivo|caminho> [--password=] [--yes]`, `wp pro-backups list`, `wp pro-backups delete`.
 - Teste: `tests/integration/cli-and-files.sh`.
 
-### Fase 5 — Export (opcional)
-- [ ] Gerar `.wpress` compatível com o AI1WM.
-- [ ] Exclusões: arquivos, tabelas, cache, plugins/temas inativos (telas da Unlimited em `view/export/option`).
+### Fase 5 — Export ✅
+- [x] Gerar `.wpress` compatível com o AI1WM (`PBK_Archive_Writer`, `PBK_Sql_Exporter`, `PBK_Exporter`): retomável,
+      gzip/bzip2, AES-256, EOF v2 com CRC. **Verificado: o próprio AI1WM restaura os backups do Pro Backups.**
+- [x] Exclusões: mídia, plugins, temas, plugins/temas inativos, cache, banco, comentários spam, revisões,
+      arquivos/pastas e tabelas específicas (aba "Create backup" e `wp pro-backups backup --exclude=...`).
+- Testes: `tests/unit/ArchiveWriterTest.php`, `tests/integration/export.sh` (Pro Backups ↔ AI1WM), `tests/integration/ui-export.sh`.
 
 ### Fase 6 — Extras da Unlimited (depois)
 - [ ] Agendamentos (WP-Cron), retenção, ferramentas de reset.

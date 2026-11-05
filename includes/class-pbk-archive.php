@@ -363,6 +363,160 @@ class PBK_Archive_Reader {
 }
 
 /**
+ * Resumable writer. Every add_file() call can stop at $deadline and continue in a later request.
+ */
+class PBK_Archive_Writer {
+	private $file;
+	private $handle;
+	private $password;
+	private $compression;
+
+	public function __construct( $file, $password = null, $compression = null ) {
+		$this->file        = $file;
+		$this->password    = ( $password === '' ) ? null : $password;
+		$this->compression = $compression ?: null;
+		self::check( $this->password, $this->compression );
+		$this->handle = @fopen( $file, 'cb' );
+		if ( ! $this->handle ) {
+			throw new PBK_Exception( 'Could not create the backup file.' );
+		}
+	}
+
+	public static function check( $password, $compression ) {
+		if ( $compression === 'bzip2' && ! function_exists( 'bzcompress' ) ) {
+			throw new PBK_Exception( 'bzip2 compression needs the PHP bz2 extension.' );
+		}
+		if ( $compression === 'gzip' && ! function_exists( 'gzcompress' ) ) {
+			throw new PBK_Exception( 'gzip compression needs the PHP zlib extension.' );
+		}
+		if ( $password && ! function_exists( 'openssl_encrypt' ) ) {
+			throw new PBK_Exception( 'Encryption needs the PHP openssl extension.' );
+		}
+	}
+
+	public function __destruct() {
+		if ( is_resource( $this->handle ) ) {
+			fclose( $this->handle );
+		}
+	}
+
+	/** Archive names must fit the header (AI1WM limits: name 255, path 4088 bytes). */
+	public static function fits( $name ) {
+		return strlen( basename( $name ) ) <= 255 && strlen( dirname( $name ) ) <= 4088 && strpos( $name, "\0" ) === false;
+	}
+
+	public function add_string( $name, $data ) {
+		$tmp = tempnam( dirname( $this->file ), 'pbk' );
+		file_put_contents( $tmp, $data );
+		$state = array();
+		$this->add_file( $tmp, $name, $state, INF );
+		unlink( $tmp );
+	}
+
+	/**
+	 * Appends $src as $name. $state: header (offset), read (source bytes done), stored, crc.
+	 *
+	 * @return bool true when the file is completely stored.
+	 */
+	public function add_file( $src, $name, array &$state, $deadline ) {
+		$src_handle = @fopen( $src, 'rb' );
+		if ( ! $src_handle ) {
+			return true; // vanished or unreadable since enumeration: skip, don't fail the backup
+		}
+		if ( ! isset( $state['header'] ) ) {
+			fseek( $this->handle, 0, SEEK_END );
+			$state  = array( 'header' => ftell( $this->handle ), 'read' => 0, 'stored' => 0, 'crc' => null );
+			$dir    = dirname( $name );
+			$header = pack( PBK_Archive::HEADER_PACK, basename( $name ), 0, (int) @filemtime( $src ), $dir === '.' ? '.' : $dir, '' );
+			$this->write( $header );
+		} else {
+			// Drop bytes a crashed request may have written after the last saved state.
+			ftruncate( $this->handle, $state['header'] + PBK_Archive::HEADER_SIZE + $state['stored'] );
+			fseek( $this->handle, 0, SEEK_END );
+		}
+		fseek( $src_handle, $state['read'] );
+		$raw  = in_array( $name, PBK_Archive::RAW_FILES, true );
+		$done = false;
+		while ( true ) {
+			$chunk = fread( $src_handle, PBK_Archive::CHUNK_SIZE );
+			if ( $chunk === false || $chunk === '' ) {
+				$done = true;
+				break;
+			}
+			$len          = strlen( $chunk );
+			$crc          = hash( 'crc32b', $chunk );
+			$state['crc'] = $state['crc'] === null ? $crc : PBK_Crc::combine( $state['crc'], $crc, $len );
+			if ( ! $raw && $this->compression ) {
+				$chunk = PBK_Archive::compress( $chunk, $this->compression );
+				if ( $this->password ) {
+					$chunk = PBK_Archive::encrypt( $chunk, $this->password );
+				}
+				$chunk = pack( 'N', strlen( $chunk ) ) . $chunk;
+			} elseif ( ! $raw && $this->password ) {
+				$chunk = PBK_Archive::encrypt( $chunk, $this->password );
+			}
+			$this->write( $chunk );
+			$state['read']   += $len;
+			$state['stored'] += strlen( $chunk );
+			if ( microtime( true ) >= $deadline ) {
+				break;
+			}
+		}
+		fclose( $src_handle );
+		if ( ! $done ) {
+			return false;
+		}
+		// Patch size and crc32 into the header.
+		fseek( $this->handle, $state['header'] + 255 );
+		$this->write( pack( 'a14', $state['stored'] ) );
+		fseek( $this->handle, $state['header'] + 255 + 14 + 12 + 4088 );
+		$this->write( pack( 'a8', $state['crc'] === null ? hash( 'crc32b', '' ) : $state['crc'] ) );
+		fseek( $this->handle, 0, SEEK_END );
+		return true;
+	}
+
+	/** Appends the v2 EOF block (archive size + crc32 of everything before it). */
+	public function finish( $archive_crc ) {
+		fseek( $this->handle, 0, SEEK_END );
+		$size = ftell( $this->handle );
+		$this->write( PBK_Archive::eof_block( $size, $archive_crc ) );
+		fflush( $this->handle );
+	}
+
+	public function size() {
+		fseek( $this->handle, 0, SEEK_END );
+		return ftell( $this->handle );
+	}
+
+	private function write( $data ) {
+		if ( fwrite( $this->handle, $data ) !== strlen( $data ) ) {
+			throw new PBK_Exception( 'Out of disk space while writing the backup.' );
+		}
+	}
+
+	/** crc32 of the first $length bytes of a file, resumable. $state: pos, crc. Returns null until done. */
+	public static function file_crc( $file, $length, array &$state, $deadline ) {
+		$state += array( 'pos' => 0, 'crc' => hash( 'crc32b', '' ) );
+		$fh = fopen( $file, 'rb' );
+		fseek( $fh, $state['pos'] );
+		while ( $state['pos'] < $length ) {
+			$data = fread( $fh, (int) min( 8388608, $length - $state['pos'] ) );
+			if ( $data === false || $data === '' ) {
+				throw new PBK_Exception( 'Could not read the backup file.' );
+			}
+			$state['crc'] = $state['pos'] === 0 ? hash( 'crc32b', $data ) : PBK_Crc::combine( $state['crc'], hash( 'crc32b', $data ), strlen( $data ) );
+			$state['pos'] += strlen( $data );
+			if ( $state['pos'] < $length && microtime( true ) >= $deadline ) {
+				fclose( $fh );
+				return null;
+			}
+		}
+		fclose( $fh );
+		return $state['crc'];
+	}
+}
+
+/**
  * crc32 combine (zlib crc32_combine), so the archive CRC can be computed across requests.
  */
 class PBK_Crc {

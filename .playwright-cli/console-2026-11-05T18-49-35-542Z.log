@@ -1,0 +1,2 @@
+[     136ms] [LOG] JQMIGRATE: Migrate is installed, version 3.4.1 @ http://localhost:8091/wp-admin/load-scripts.php?c=0&load%5Bchunk_0%5D=jquery-core,jquery-migrate,utils&ver=7.1.4:4
+[     420ms] [VERBOSE] [DOM] Password forms should have (optionally hidden) username fields for accessibility: (More info: https://goo.gl/9p2vKq) %o @ http://localhost:8091/wp-admin/admin.php?page=pro-backups&tab=create:0

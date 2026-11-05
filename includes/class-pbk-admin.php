@@ -32,7 +32,8 @@ class PBK_Admin {
 	}
 
 	public static function action_url( $action, $file ) {
-		return wp_nonce_url( add_query_arg( array( 'action' => $action, 'file' => rawurlencode( $file ) ), admin_url( 'admin-post.php' ) ), $action . $file );
+		// Raw URL (no &amp;): also used in JSON responses. Escape with esc_url() when printing.
+		return add_query_arg( array( 'action' => $action, 'file' => rawurlencode( $file ), '_wpnonce' => wp_create_nonce( $action . $file ) ), admin_url( 'admin-post.php' ) );
 	}
 
 	/** Streams a backup (storage is not web-accessible). */
@@ -82,6 +83,7 @@ class PBK_Admin {
 			'pbk_admin_tabs',
 			array(
 				'backups' => array( __( 'Backups', 'pro-backups' ), array( __CLASS__, 'tab_backups' ) ),
+				'create'  => array( __( 'Create backup', 'pro-backups' ), array( __CLASS__, 'tab_create' ) ),
 			)
 		);
 	}
@@ -135,6 +137,7 @@ class PBK_Admin {
 					'error'        => __( 'Error', 'pro-backups' ),
 					'done'         => __( 'Done', 'pro-backups' ),
 					'download'     => __( 'Download', 'pro-backups' ),
+					'creating'     => __( 'Creating backup', 'pro-backups' ),
 				),
 			)
 		);
@@ -173,6 +176,62 @@ class PBK_Admin {
 		</p>
 		<?php self::backups_table(); ?>
 		<?php
+	}
+
+	/** Export options form, shared by "Create backup" and schedules. */
+	public static function export_fields( array $v = array() ) {
+		global $wpdb;
+		$v      += array( 'exclude' => array( 'cache' ), 'compression' => '', 'exclude_files' => array(), 'exclude_tables' => array() );
+		$labels  = array(
+			'media'            => __( 'Media library (uploads)', 'pro-backups' ),
+			'plugins'          => __( 'Plugins', 'pro-backups' ),
+			'inactive-plugins' => __( 'Inactive plugins', 'pro-backups' ),
+			'themes'           => __( 'Themes', 'pro-backups' ),
+			'inactive-themes'  => __( 'Inactive themes', 'pro-backups' ),
+			'cache'            => __( 'Cache folders', 'pro-backups' ),
+			'database'         => __( 'Database', 'pro-backups' ),
+			'spam'             => __( 'Spam comments', 'pro-backups' ),
+			'revisions'        => __( 'Post revisions', 'pro-backups' ),
+		);
+		$tables = (array) $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->prefix ) . '%' ) );
+		?>
+		<table class="form-table pbk-form" role="presentation">
+			<tr><th scope="row"><?php esc_html_e( 'Do not back up', 'pro-backups' ); ?></th><td><fieldset>
+				<?php foreach ( $labels as $key => $label ) : ?>
+					<label><input type="checkbox" name="exclude[]" value="<?php echo esc_attr( $key ); ?>" <?php checked( in_array( $key, $v['exclude'], true ) ); ?>> <?php echo esc_html( $label ); ?></label><br>
+				<?php endforeach; ?>
+			</fieldset></td></tr>
+			<tr><th scope="row"><label for="pbk-exclude-files"><?php esc_html_e( 'Exclude files / folders', 'pro-backups' ); ?></label></th><td>
+				<textarea id="pbk-exclude-files" name="exclude_files" rows="3" class="large-text code" placeholder="uploads/big-videos&#10;plugins/some-plugin"><?php echo esc_textarea( implode( "\n", $v['exclude_files'] ) ); ?></textarea>
+				<p class="description"><?php esc_html_e( 'One path per line, relative to wp-content.', 'pro-backups' ); ?></p>
+			</td></tr>
+			<tr><th scope="row"><label for="pbk-exclude-tables"><?php esc_html_e( 'Exclude tables', 'pro-backups' ); ?></label></th><td>
+				<select id="pbk-exclude-tables" name="exclude_tables[]" multiple size="6" class="pbk-tables">
+					<?php foreach ( $tables as $table ) : ?>
+						<option value="<?php echo esc_attr( $table ); ?>" <?php selected( in_array( $table, $v['exclude_tables'], true ) ); ?>><?php echo esc_html( $table ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</td></tr>
+			<tr><th scope="row"><label for="pbk-compression"><?php esc_html_e( 'Compression', 'pro-backups' ); ?></label></th><td>
+				<select id="pbk-compression" name="compression">
+					<option value=""><?php esc_html_e( 'None (fastest)', 'pro-backups' ); ?></option>
+					<option value="gzip" <?php selected( $v['compression'], 'gzip' ); ?> <?php disabled( ! function_exists( 'gzcompress' ) ); ?>>gzip</option>
+					<option value="bzip2" <?php selected( $v['compression'], 'bzip2' ); ?> <?php disabled( ! function_exists( 'bzcompress' ) ); ?>>bzip2</option>
+				</select>
+			</td></tr>
+			<tr><th scope="row"><label for="pbk-password"><?php esc_html_e( 'Encrypt with password', 'pro-backups' ); ?></label></th><td>
+				<input type="password" id="pbk-password" name="password" class="regular-text" autocomplete="new-password" <?php disabled( ! function_exists( 'openssl_encrypt' ) ); ?>>
+				<p class="description"><?php esc_html_e( 'Optional. AES-256. Without the password the backup cannot be restored.', 'pro-backups' ); ?></p>
+			</td></tr>
+		</table>
+		<?php
+	}
+
+	public static function tab_create() {
+		echo '<form id="pbk-export-form">';
+		self::export_fields();
+		submit_button( __( 'Create backup', 'pro-backups' ) );
+		echo '</form>';
 	}
 
 	public static function backups_table() {
