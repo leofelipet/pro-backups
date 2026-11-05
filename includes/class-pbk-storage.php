@@ -8,6 +8,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.ExceptionNotEscaped -- backup folder management; messages are escaped where displayed.
+
 class PBK_Storage {
 	public static function dir() {
 		$dir = defined( 'PBK_STORAGE_DIR' ) ? PBK_STORAGE_DIR : WP_CONTENT_DIR . '/pro-backups';

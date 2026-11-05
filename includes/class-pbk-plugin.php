@@ -10,6 +10,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.Security.NonceVerification -- job endpoints are authorized by a per-job random token (checked in PBK_Job::authorize()), start endpoints by guard().
+
 class PBK_Plugin {
 	const CAP   = 'manage_options';
 	const NONCE = 'pbk';

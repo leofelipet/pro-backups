@@ -10,7 +10,7 @@ fail() { echo "FAIL: $*"; exit 1; }
 json() { php -r '$d=json_decode(stream_get_contents(STDIN),true); $v=$d; foreach(explode(".",$argv[1]) as $k){$v=$v[$k]??null;} echo is_scalar($v)?$v:json_encode($v);' "$1"; }
 
 # Fresh dst content = src backup
-docker compose cp ../fixtures/large/full-plain.wpress dst:/var/www/html/wp-content/pro-backups/ >/dev/null 2>&1
+docker compose cp ${FIXTURES:-../fixtures}/large/full-plain.wpress dst:/var/www/html/wp-content/pro-backups/ >/dev/null 2>&1
 docker compose exec -T -u root dst chown -R www-data: /var/www/html/wp-content/pro-backups
 cli plugin activate pro-backups >/dev/null
 cli pro-backups restore full-plain.wpress --yes >/dev/null || fail "seed restore"

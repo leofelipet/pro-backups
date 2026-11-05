@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions.unlink_unlink -- deleting a backup file.
+
 class PBK_CLI {
 	/**
 	 * Lists backups on this server.

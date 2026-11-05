@@ -8,6 +8,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.ExceptionNotEscaped, Squiz.PHP.DiscouragedFunctions -- job state files, flock() and set_time_limit() for long-running jobs; messages are escaped where displayed.
+
 class PBK_Job {
 	public $id;
 	public $data;

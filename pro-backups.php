@@ -4,7 +4,7 @@
  * Plugin URI:        https://github.com/leofelipet/pro-backups
  * Description:       Free, unlimited backup and restore of .wpress archives. No upload size limit, no paywall.
  * Version:           0.1.0
- * Requires at least: 5.6
+ * Requires at least: 6.1
  * Requires PHP:      7.4
  * Author:            Leonardo Felipe
  * License:           GPL-3.0-or-later

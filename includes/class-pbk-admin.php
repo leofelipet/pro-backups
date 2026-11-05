@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, Squiz.PHP.DiscouragedFunctions, WordPressVIPMinimum.Performance.WPQueryParams, WordPress.DB.DirectDatabaseQuery -- download streams a large file; SHOW TABLES for the exclusion list.
+
 class PBK_Admin {
 	const SLUG = 'pro-backups';
 
@@ -124,8 +126,11 @@ class PBK_Admin {
 				'chunkSize' => PBK_Upload::chunk_size(),
 				'free'      => PBK_Storage::free_space(),
 				'i18n'      => array(
+					/* translators: %s: file name */
 					'uploading'    => __( 'Uploading %s ...', 'pro-backups' ),
+					/* translators: %s: error message */
 					'uploadFailed' => __( 'Upload failed: %s', 'pro-backups' ),
+					/* translators: %d: attempt number */
 					'retrying'     => __( 'Connection problem, retrying (%d)...', 'pro-backups' ),
 					'notWpress'    => __( 'Only .wpress files can be restored.', 'pro-backups' ),
 					'noSpace'      => __( 'Not enough disk space for this file.', 'pro-backups' ),

@@ -46,8 +46,8 @@ class ReplaceAndSqlTest extends TestCase {
 		$file = tempnam( sys_get_temp_dir(), 'pbk' );
 		file_put_contents(
 			$file,
-			"DROP TABLE IF EXISTS `SERVMASK_PREFIX_options`;\nCREATE TABLE `SERVMASK_PREFIX_options` (\n `v` text\n) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\n\nSTART TRANSACTION;\n" .
-			"INSERT INTO `SERVMASK_PREFIX_options` VALUES ('a;\\nb http://old.test');\nINSERT INTO `SERVMASK_PREFIX_options` VALUES ('SERVMASK_PREFIX_user_roles');\nCOMMIT;\n"
+			"DROP TABLE IF EXISTS `SERVMASK_PREFIX_postmeta`;\nCREATE TABLE `SERVMASK_PREFIX_postmeta` (\n `v` text\n) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\n\nSTART TRANSACTION;\n" .
+			"INSERT INTO `SERVMASK_PREFIX_postmeta` VALUES ('a;\\nb http://old.test');\nINSERT INTO `SERVMASK_PREFIX_postmeta` VALUES ('SERVMASK_PREFIX_user_roles');\nCOMMIT;\n"
 		);
 		$ran  = array();
 		$exec = function ( $sql ) use ( &$ran ) {
@@ -67,12 +67,44 @@ class ReplaceAndSqlTest extends TestCase {
 			return preg_match( '/^(DROP|CREATE|INSERT)/', $q );
 		} ) );
 		$this->assertGreaterThanOrEqual( 3, $loops );
-		$this->assertSame( 'DROP TABLE IF EXISTS `wp_options`;', $queries[0] );
+		$this->assertSame( 'DROP TABLE IF EXISTS `wp_postmeta`;', $queries[0] );
 		$this->assertStringContainsString( 'utf8mb4_unicode_520_ci', $queries[1] );
-		$this->assertSame( "INSERT INTO `wp_options` VALUES ('a;\\nb https://new.example.com');", $queries[2] );
-		$this->assertSame( "INSERT INTO `wp_options` VALUES ('wp_user_roles');", $queries[3] );
+		$this->assertSame( "INSERT INTO `wp_postmeta` VALUES ('a;\\nb https://new.example.com');", $queries[2] );
+		$this->assertSame( "INSERT INTO `wp_postmeta` VALUES ('wp_user_roles');", $queries[3] );
 		$this->assertCount( 4, $queries );
 		$this->assertSame( 0, $state['failed'] );
+		unlink( $file );
+	}
+
+	public function test_options_table_is_imported_atomically() {
+		$file = tempnam( sys_get_temp_dir(), 'pbk' );
+		file_put_contents(
+			$file,
+			"DROP TABLE IF EXISTS `SERVMASK_PREFIX_posts`;\nINSERT INTO `SERVMASK_PREFIX_posts` VALUES (1);\n" .
+			"DROP TABLE IF EXISTS `SERVMASK_PREFIX_options`;\nCREATE TABLE `SERVMASK_PREFIX_options` (\n `v` text\n);\nSTART TRANSACTION;\n" .
+			"INSERT INTO `SERVMASK_PREFIX_options` VALUES ('a');\nINSERT INTO `SERVMASK_PREFIX_options` VALUES ('b');\nCOMMIT;\n" .
+			"DROP TABLE IF EXISTS `SERVMASK_PREFIX_users`;\nINSERT INTO `SERVMASK_PREFIX_users` VALUES (1);\n"
+		);
+		$batches = array();
+		$current = array();
+		$exec    = function ( $sql ) use ( &$current ) {
+			if ( preg_match( '/^(DROP|CREATE|INSERT)/', $sql ) ) {
+				$current[] = $sql;
+			}
+			return '';
+		};
+		$imp   = new PBK_Sql_Importer( 'wp_', new PBK_Replace( array() ), $exec );
+		$state = array();
+		do {
+			$current = array();
+			$done    = $imp->run( $file, $state, 0 ); // deadline always expired
+			$batches[] = $current;
+		} while ( ! $done );
+		$with_options = array_values( array_filter( $batches, function ( $b ) {
+			return (bool) preg_grep( '/wp_options/', $b );
+		} ) );
+		$this->assertCount( 1, $with_options, 'options table split across requests' );
+		$this->assertCount( 4, preg_grep( '/wp_options/', $with_options[0] ) );
 		unlink( $file );
 	}
 }

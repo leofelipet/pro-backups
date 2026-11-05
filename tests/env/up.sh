@@ -4,6 +4,11 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 docker compose up -d db src dst >/dev/null
+# Create the databases with the server's own client (wp db create's client can't auth to MySQL 8.4).
+for _ in $(seq 1 60); do
+	docker compose exec -T db sh -c 'q="CREATE DATABASE IF NOT EXISTS src; CREATE DATABASE IF NOT EXISTS dst;"; (command -v mariadb >/dev/null && mariadb -uroot -proot -e "$q") || mysql -uroot -proot -e "$q"' >/dev/null 2>&1 && break
+	sleep 2
+done
 
 for site in src dst; do
 	port=$([ "$site" = src ] && echo 8091 || echo 8092)
@@ -12,7 +17,6 @@ for site in src dst; do
 		sleep 1
 	done
 	cli() { docker compose run --rm -T "cli-$site" "$@"; }
-	cli db create >/dev/null 2>&1 || true
 	if ! cli core is-installed >/dev/null 2>&1; then
 		cli core install --url="http://localhost:$port" --title="PBK $site" \
 			--admin_user=admin --admin_password=admin --admin_email="admin@$site.test" --skip-email >/dev/null

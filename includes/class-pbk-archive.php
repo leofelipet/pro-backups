@@ -15,6 +15,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.ExceptionNotEscaped -- streaming multi-GB archives needs native file handles (WP_Filesystem cannot stream); exception messages are escaped where they are displayed.
+
 class PBK_Exception extends RuntimeException {}
 
 class PBK_Archive {

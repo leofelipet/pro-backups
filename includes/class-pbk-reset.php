@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.Security.EscapeOutput.ExceptionNotEscaped -- the database reset drops this site's tables (names from SHOW TABLES, quoted).
+
 class PBK_Reset {
 	const WHAT = array( 'media', 'plugins', 'themes', 'database' );
 
@@ -110,7 +112,7 @@ class PBK_Reset {
 		$hash  = $user->user_pass;
 
 		foreach ( (array) $wpdb->get_col( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $wpdb->prefix ) . '%' ) ) as $table ) {
-			$wpdb->query( "DROP TABLE IF EXISTS `$table`" ); // phpcs:ignore WordPress.DB.PreparedSQL
+			$wpdb->query( 'DROP TABLE IF EXISTS ' . PBK_Sql_Exporter::ident( $table ) );
 		}
 		wp_cache_flush();
 

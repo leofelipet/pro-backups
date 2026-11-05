@@ -8,6 +8,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.ExceptionNotEscaped, WordPressVIPMinimum.Performance.WPQueryParams -- streams files into the archive; 'exclude' is a backup option, not a WP_Query argument.
+
 class PBK_Exporter {
 	const EXCLUDES = array( 'media', 'plugins', 'themes', 'inactive-plugins', 'inactive-themes', 'cache', 'database', 'spam', 'revisions' );
 

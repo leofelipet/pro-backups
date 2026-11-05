@@ -1,0 +1,610 @@
+# Copyright (C) 2026 Leonardo Felipe
+# This file is distributed under the GPL-3.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Pro Backups 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pro-backups\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-05T19:41:19+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: pro-backups\n"
+
+#. Plugin Name of the plugin
+#: pro-backups.php
+#: includes/class-pbk-admin.php:97
+#: includes/class-pbk-admin.php:160
+msgid "Pro Backups"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: pro-backups.php
+msgid "https://github.com/leofelipet/pro-backups"
+msgstr ""
+
+#. Description of the plugin
+#: pro-backups.php
+msgid "Free, unlimited backup and restore of .wpress archives. No upload size limit, no paywall."
+msgstr ""
+
+#. Author of the plugin
+#: pro-backups.php
+msgid "Leonardo Felipe"
+msgstr ""
+
+#: includes/class-pbk-admin.php:27
+#: includes/class-pbk-schedules.php:202
+msgid "Permission denied."
+msgstr ""
+
+#: includes/class-pbk-admin.php:73
+msgid "Backup deleted."
+msgstr ""
+
+#: includes/class-pbk-admin.php:74
+msgid "Could not delete the backup (check file permissions)."
+msgstr ""
+
+#: includes/class-pbk-admin.php:75
+msgid "Settings saved."
+msgstr ""
+
+#: includes/class-pbk-admin.php:87
+#: includes/class-pbk-admin.php:101
+msgid "Backups"
+msgstr ""
+
+#: includes/class-pbk-admin.php:88
+#: includes/class-pbk-admin.php:242
+msgid "Create backup"
+msgstr ""
+
+#: includes/class-pbk-admin.php:89
+msgid "Schedules"
+msgstr ""
+
+#: includes/class-pbk-admin.php:90
+#: includes/class-pbk-reset.php:160
+msgid "Reset"
+msgstr ""
+
+#: includes/class-pbk-admin.php:91
+msgid "Settings"
+msgstr ""
+
+#. translators: %s: file name
+#: includes/class-pbk-admin.php:130
+#, php-format
+msgid "Uploading %s ..."
+msgstr ""
+
+#. translators: %s: error message
+#: includes/class-pbk-admin.php:132
+#, php-format
+msgid "Upload failed: %s"
+msgstr ""
+
+#. translators: %d: attempt number
+#: includes/class-pbk-admin.php:134
+#, php-format
+msgid "Connection problem, retrying (%d)..."
+msgstr ""
+
+#: includes/class-pbk-admin.php:135
+msgid "Only .wpress files can be restored."
+msgstr ""
+
+#: includes/class-pbk-admin.php:136
+msgid "Not enough disk space for this file."
+msgstr ""
+
+#: includes/class-pbk-admin.php:137
+#: includes/class-pbk-admin.php:268
+msgid "Restore"
+msgstr ""
+
+#: includes/class-pbk-admin.php:138
+msgid "Cancel"
+msgstr ""
+
+#: includes/class-pbk-admin.php:139
+msgid "Close"
+msgstr ""
+
+#: includes/class-pbk-admin.php:140
+msgid "Unlock"
+msgstr ""
+
+#: includes/class-pbk-admin.php:141
+msgid "Backup password"
+msgstr ""
+
+#: includes/class-pbk-admin.php:142
+msgid "Log in"
+msgstr ""
+
+#: includes/class-pbk-admin.php:143
+msgid "A backup job is running. Leaving this page pauses it."
+msgstr ""
+
+#: includes/class-pbk-admin.php:144
+msgid "Delete this backup permanently?"
+msgstr ""
+
+#: includes/class-pbk-admin.php:145
+msgid "Error"
+msgstr ""
+
+#: includes/class-pbk-admin.php:146
+msgid "Done"
+msgstr ""
+
+#: includes/class-pbk-admin.php:147
+#: includes/class-pbk-admin.php:269
+msgid "Download"
+msgstr ""
+
+#: includes/class-pbk-admin.php:148
+msgid "Creating backup"
+msgstr ""
+
+#: includes/class-pbk-admin.php:149
+msgid "Backing up, then resetting"
+msgstr ""
+
+#: includes/class-pbk-admin.php:174
+msgid "Drop a .wpress file here to upload and restore it"
+msgstr ""
+
+#: includes/class-pbk-admin.php:175
+msgid "No size limit: the file is sent in small parts and the upload resumes after connection drops."
+msgstr ""
+
+#: includes/class-pbk-admin.php:176
+msgid "Choose file"
+msgstr ""
+
+#. translators: %s: backups folder path
+#: includes/class-pbk-admin.php:183
+#, php-format
+msgid "Very large file or slow connection? Upload it by FTP/SFTP to %s and it appears in the list below."
+msgstr ""
+
+#: includes/class-pbk-admin.php:195
+msgid "Media library (uploads)"
+msgstr ""
+
+#: includes/class-pbk-admin.php:196
+msgid "Plugins"
+msgstr ""
+
+#: includes/class-pbk-admin.php:197
+msgid "Inactive plugins"
+msgstr ""
+
+#: includes/class-pbk-admin.php:198
+msgid "Themes"
+msgstr ""
+
+#: includes/class-pbk-admin.php:199
+msgid "Inactive themes"
+msgstr ""
+
+#: includes/class-pbk-admin.php:200
+msgid "Cache folders"
+msgstr ""
+
+#: includes/class-pbk-admin.php:201
+msgid "Database"
+msgstr ""
+
+#: includes/class-pbk-admin.php:202
+msgid "Spam comments"
+msgstr ""
+
+#: includes/class-pbk-admin.php:203
+msgid "Post revisions"
+msgstr ""
+
+#: includes/class-pbk-admin.php:208
+msgid "Do not back up"
+msgstr ""
+
+#: includes/class-pbk-admin.php:213
+msgid "Exclude files / folders"
+msgstr ""
+
+#: includes/class-pbk-admin.php:215
+msgid "One path per line, relative to wp-content."
+msgstr ""
+
+#: includes/class-pbk-admin.php:217
+msgid "Exclude tables"
+msgstr ""
+
+#: includes/class-pbk-admin.php:224
+msgid "Compression"
+msgstr ""
+
+#: includes/class-pbk-admin.php:226
+msgid "None (fastest)"
+msgstr ""
+
+#: includes/class-pbk-admin.php:231
+msgid "Encrypt with password"
+msgstr ""
+
+#: includes/class-pbk-admin.php:233
+msgid "Optional. AES-256. Without the password the backup cannot be restored."
+msgstr ""
+
+#: includes/class-pbk-admin.php:248
+msgid "Backups on this server"
+msgstr ""
+
+#: includes/class-pbk-admin.php:250
+msgid "No backups yet."
+msgstr ""
+
+#: includes/class-pbk-admin.php:253
+msgid "File"
+msgstr ""
+
+#: includes/class-pbk-admin.php:253
+msgid "Date"
+msgstr ""
+
+#: includes/class-pbk-admin.php:253
+msgid "Size"
+msgstr ""
+
+#: includes/class-pbk-admin.php:270
+#: includes/class-pbk-schedules.php:294
+msgid "Delete"
+msgstr ""
+
+#: includes/class-pbk-admin.php:282
+msgid "Log"
+msgstr ""
+
+#: includes/class-pbk-exporter.php:30
+msgid "Unknown compression type."
+msgstr ""
+
+#: includes/class-pbk-exporter.php:84
+msgid "Listing files..."
+msgstr ""
+
+#: includes/class-pbk-exporter.php:224
+msgid "Backing up files..."
+msgstr ""
+
+#: includes/class-pbk-exporter.php:239
+msgid "Backing up database..."
+msgstr ""
+
+#: includes/class-pbk-exporter.php:259
+msgid "Adding database to the backup..."
+msgstr ""
+
+#: includes/class-pbk-exporter.php:329
+msgid "Finishing backup..."
+msgstr ""
+
+#: includes/class-pbk-exporter.php:341
+msgid "Could not move the backup into the backups folder."
+msgstr ""
+
+#. translators: 1: file name, 2: size
+#: includes/class-pbk-exporter.php:353
+#, php-format
+msgid "Backup created: %1$s (%2$s)."
+msgstr ""
+
+#: includes/class-pbk-importer.php:67
+msgid "Checking backup file..."
+msgstr ""
+
+#: includes/class-pbk-importer.php:69
+msgid "Restoring into a multisite network is not supported yet."
+msgstr ""
+
+#: includes/class-pbk-importer.php:72
+msgid "Backup file not found."
+msgstr ""
+
+#: includes/class-pbk-importer.php:76
+msgid "This is not a valid .wpress file, or the upload is incomplete."
+msgstr ""
+
+#: includes/class-pbk-importer.php:80
+msgid "package.json is missing: this file was not created by Pro Backups or All-in-One WP Migration."
+msgstr ""
+
+#: includes/class-pbk-importer.php:83
+msgid "This is a multisite network backup. Network backups are not supported yet."
+msgstr ""
+
+#: includes/class-pbk-importer.php:97
+msgid "Verifying backup integrity..."
+msgstr ""
+
+#: includes/class-pbk-importer.php:111
+msgid "This backup is encrypted but the PHP openssl extension is missing."
+msgstr ""
+
+#: includes/class-pbk-importer.php:118
+msgid "This backup is encrypted. Enter its password."
+msgstr ""
+
+#: includes/class-pbk-importer.php:118
+msgid "Wrong password. Try again."
+msgstr ""
+
+#. translators: 1: source site URL
+#: includes/class-pbk-importer.php:127
+#, php-format
+msgid "This will replace this site's database, media, plugins and themes with the backup of %1$s. Make sure you have a backup of the current site. Continue?"
+msgstr ""
+
+#. translators: 1: backup WordPress version, 2: this site's version
+#: includes/class-pbk-importer.php:133
+#, php-format
+msgid "Warning: the backup comes from WordPress %1$s but this site runs %2$s. Update WordPress first, or newer themes/plugins from the backup may not work."
+msgstr ""
+
+#. translators: %s: free disk space
+#: includes/class-pbk-importer.php:137
+#, php-format
+msgid "Warning: only %s of free disk space; the restore may fail."
+msgstr ""
+
+#: includes/class-pbk-importer.php:164
+msgid "Restoring files..."
+msgstr ""
+
+#: includes/class-pbk-importer.php:216
+msgid "Restoring database..."
+msgstr ""
+
+#: includes/class-pbk-importer.php:279
+msgid "Restore complete. Log in again with a user from the backup."
+msgstr ""
+
+#. translators: %d: number of failed SQL queries
+#: includes/class-pbk-importer.php:282
+#, php-format
+msgid "%d database query failed (see the log)."
+msgid_plural "%d database queries failed (see the log)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/class-pbk-plugin.php:58
+msgid "Permission denied. Reload the page and try again."
+msgstr ""
+
+#: includes/class-pbk-plugin.php:67
+msgid "Job not found or expired."
+msgstr ""
+
+#: includes/class-pbk-plugin.php:122
+msgid "The restore is already changing the site and cannot be cancelled safely."
+msgstr ""
+
+#: includes/class-pbk-plugin.php:125
+msgid "Cancelled."
+msgstr ""
+
+#: includes/class-pbk-reset.php:21
+msgid "Delete all media files (uploads folder)"
+msgstr ""
+
+#: includes/class-pbk-reset.php:22
+msgid "Deactivate and delete all plugins (except Pro Backups)"
+msgstr ""
+
+#: includes/class-pbk-reset.php:23
+msgid "Delete all themes except the active one"
+msgstr ""
+
+#: includes/class-pbk-reset.php:24
+msgid "Reset the database to a fresh WordPress install (keeps your admin login, site URL and title)"
+msgstr ""
+
+#: includes/class-pbk-reset.php:32
+msgid "Choose what to reset."
+msgstr ""
+
+#. translators: %s: backup file name
+#: includes/class-pbk-reset.php:60
+#, php-format
+msgid "Reset complete. The site was backed up first to %s (restore it from the Backups tab to undo)."
+msgstr ""
+
+#: includes/class-pbk-reset.php:146
+msgid "Type RESET to confirm."
+msgstr ""
+
+#: includes/class-pbk-reset.php:157
+msgid "Reset tools delete data. A full backup of the site is always created first, so you can undo a reset by restoring it."
+msgstr ""
+
+#: includes/class-pbk-reset.php:165
+msgid "Type RESET to confirm"
+msgstr ""
+
+#: includes/class-pbk-reset.php:167
+msgid "Back up and reset"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:32
+msgid "Once Weekly"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:33
+msgid "Once Monthly"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:39
+msgid "Every hour"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:40
+msgid "Twice a day"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:41
+msgid "Every day"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:42
+msgid "Every week"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:43
+msgid "Every month"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:65
+msgid "Backup"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:114
+msgid "Schedule not found."
+msgstr ""
+
+#: includes/class-pbk-schedules.php:273
+msgid "Add schedule"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:275
+msgid "No schedules yet."
+msgstr ""
+
+#: includes/class-pbk-schedules.php:277
+#: includes/class-pbk-schedules.php:310
+msgid "Name"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:277
+msgid "When"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:277
+msgid "Next run"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:277
+msgid "Last run"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:284
+msgid "paused"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:288
+msgid "Run now"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:290
+msgid "Edit"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:299
+msgid "Schedules use WP-Cron: they run when the site gets visits. For exact timing, call wp-cron.php from a real server cron job."
+msgstr ""
+
+#: includes/class-pbk-schedules.php:311
+msgid "Frequency"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:317
+msgid "starting at"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:319
+msgid "Active"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:319
+msgid "Run this schedule"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:323
+msgid "Remove the saved encryption password"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:325
+msgid "A scheduled encryption password is stored in the database so backups can run unattended. Leave it empty to keep the saved one."
+msgstr ""
+
+#: includes/class-pbk-schedules.php:326
+msgid "Save schedule"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:337
+msgid "Retention"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:338
+msgid "After every backup, the oldest backups in the Pro Backups folder beyond these limits are deleted. 0 = no limit."
+msgstr ""
+
+#: includes/class-pbk-schedules.php:340
+msgid "Keep at most"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:340
+msgid "backups"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:341
+msgid "Delete backups older than"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:341
+msgid "days"
+msgstr ""
+
+#: includes/class-pbk-schedules.php:342
+msgid "Total size limit"
+msgstr ""
+
+#: includes/class-pbk-upload.php:34
+msgid "Upload not found or expired. Start again."
+msgstr ""
+
+#: includes/class-pbk-upload.php:43
+msgid "The file is empty or too small to be a backup."
+msgstr ""
+
+#. translators: 1: needed, 2: free
+#: includes/class-pbk-upload.php:48
+#, php-format
+msgid "Not enough disk space: the file needs %1$s, only %2$s free."
+msgstr ""
+
+#: includes/class-pbk-upload.php:54
+#: includes/class-pbk-upload.php:80
+msgid "Could not write to the backups folder."
+msgstr ""
+
+#: includes/class-pbk-upload.php:76
+msgid "Invalid upload chunk."
+msgstr ""
+
+#: includes/class-pbk-upload.php:89
+msgid "Out of disk space while uploading."
+msgstr ""
+
+#: includes/class-pbk-upload.php:95
+msgid "Could not finish the upload."
+msgstr ""
+
+#: includes/class-pbk-upload.php:140
+msgid "The chunk did not arrive. Retrying..."
+msgstr ""

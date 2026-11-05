@@ -8,6 +8,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.ExceptionNotEscaped, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.RestrictedFunctions, PluginCheck.Security.DirectDB.UnescapedDBParameter -- restoring a backup executes the backup's own SQL statements on the raw connection by design.
+
 class PBK_Importer {
 	/** Mu-plugins that belong to a specific host and break elsewhere. */
 	const HOST_MU_PLUGINS = array( 'endurance-page-cache.php', 'endurance-php-edge.php', 'endurance-browser-cache.php', 'gd-system-plugin.php', 'gd-system-plugin', 'wp-stack-cache.php', 'wpcomsh-loader.php', 'wpcomsh', 'mu-plugin.php', 'wpengine-common', 'wpe-wp-sign-on-plugin', 'wpe-wp-sign-on-plugin.php', 'wpe-elasticpress-autosuggest-logger.php', 'kinsta-mu-plugins', 'kinsta-mu-plugins.php', 'sso.php' );
@@ -125,6 +127,11 @@ class PBK_Importer {
 				__( 'This will replace this site\'s database, media, plugins and themes with the backup of %1$s. Make sure you have a backup of the current site. Continue?', 'pro-backups' ),
 				$s['package']['SiteURL']
 			);
+			$from = isset( $s['package']['WordPress']['Version'] ) ? $s['package']['WordPress']['Version'] : '';
+			if ( $from && version_compare( $from, get_bloginfo( 'version' ), '>' ) ) {
+				/* translators: 1: backup WordPress version, 2: this site's version */
+				$msg .= ' ' . sprintf( __( 'Warning: the backup comes from WordPress %1$s but this site runs %2$s. Update WordPress first, or newer themes/plugins from the backup may not work.', 'pro-backups' ), $from, get_bloginfo( 'version' ) );
+			}
 			if ( $free !== null && $free < $s['size'] * 1.2 ) {
 				/* translators: %s: free disk space */
 				$msg .= ' ' . sprintf( __( 'Warning: only %s of free disk space; the restore may fail.', 'pro-backups' ), size_format( $free ) );

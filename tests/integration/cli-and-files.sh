@@ -5,7 +5,7 @@ cd "$(dirname "$0")/../env"
 U=http://localhost:8092
 cli() { docker compose run --rm -T -e HOME=/tmp cli-dst "$@" 2>&1 | grep -v Container; }
 fail() { echo "FAIL: $*"; exit 1; }
-put() { docker compose cp "../fixtures/large/$1" "dst:/var/www/html/wp-content/pro-backups/$1" >/dev/null 2>&1; docker compose exec -T -u root dst chown -R www-data: /var/www/html/wp-content/pro-backups; }
+put() { docker compose cp "${FIXTURES:-../fixtures}/large/$1" "dst:/var/www/html/wp-content/pro-backups/$1" >/dev/null 2>&1; docker compose exec -T -u root dst chown -R www-data: /var/www/html/wp-content/pro-backups; }
 
 cli plugin activate pro-backups >/dev/null
 put full-plain.wpress; put full-encrypted-gzip.wpress
@@ -24,7 +24,7 @@ curl -s -c "$jar" -b "$jar" -o /dev/null -d log=admin -d pwd=admin -d wp-submit=
 page=$(curl -s -b "$jar" "$U/wp-admin/admin.php?page=pro-backups")
 dl=$(echo "$page" | grep -o 'href="[^"]*action=pbk_download[^"]*file=full-plain.wpress[^"]*"' | head -1 | sed 's/href="//;s/"$//;s/&#038;/\&/g;s/&amp;/\&/g')
 [ -n "$dl" ] || fail "download link missing"
-[ "$(curl -s -b "$jar" "$dl" | md5sum | cut -c1-32)" = "$(md5sum < ../fixtures/large/full-plain.wpress | cut -c1-32)" ] || fail "download content"
+[ "$(curl -s -b "$jar" "$dl" | md5sum | cut -c1-32)" = "$(md5sum < ${FIXTURES:-../fixtures}/large/full-plain.wpress | cut -c1-32)" ] || fail "download content"
 [ "$(curl -s -o /dev/null -w '%{http_code}' "$dl")" != 200 ] || fail "download without login"
 [ "$(curl -s -o /dev/null -w '%{http_code}' -b "$jar" "${dl/_wpnonce=/_wpnonce=x}")" = 403 ] || fail "download with bad nonce"
 del=$(echo "$page" | grep -o 'href="[^"]*action=pbk_delete[^"]*file=full-plain.wpress[^"]*"' | head -1 | sed 's/href="//;s/"$//;s/&#038;/\&/g;s/&amp;/\&/g')

@@ -8,6 +8,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.ExceptionNotEscaped, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL, PluginCheck.Security.DirectDB.UnescapedDBParameter -- dumping tables needs direct, uncached queries; identifiers come from SHOW TABLES and are quoted with ident().
+
 class PBK_Sql_Exporter {
 	const ROWS = 500;
 
@@ -41,6 +43,11 @@ class PBK_Sql_Exporter {
 		return $out;
 	}
 
+	/** Quotes a table/column identifier (names come from SHOW TABLES / SHOW KEYS, quoted anyway). */
+	public static function ident( $name ) {
+		return '`' . str_replace( '`', '``', $name ) . '`';
+	}
+
 	private function placeholder( $name ) {
 		return PBK_Sql_Importer::PREFIX_PLACEHOLDER . substr( $name, strlen( $this->prefix ) );
 	}
@@ -70,13 +77,13 @@ class PBK_Sql_Exporter {
 				$state['offset']  = 0;
 				$state['key']     = null;
 				if ( $table['view'] ) {
-					$create = $wpdb->get_row( "SHOW CREATE VIEW `$name`", ARRAY_N );
+					$create = $wpdb->get_row( 'SHOW CREATE VIEW ' . self::ident( $name ), ARRAY_N );
 					$sql    = preg_replace( '/\s+DEFINER\s*=\s*\S+/i', '', $this->ddl( $create[1] ) );
 					$this->put( $fh, "DROP VIEW IF EXISTS `$ph`;\n$sql;\n\n" );
 					$this->next( $state );
 					continue;
 				}
-				$create = $wpdb->get_row( "SHOW CREATE TABLE `$name`", ARRAY_N );
+				$create = $wpdb->get_row( 'SHOW CREATE TABLE ' . self::ident( $name ), ARRAY_N );
 				if ( ! $create ) {
 					$this->next( $state );
 					continue;
@@ -102,7 +109,7 @@ class PBK_Sql_Exporter {
 
 	private function single_primary_key( $table ) {
 		global $wpdb;
-		$keys = $wpdb->get_results( "SHOW KEYS FROM `$table` WHERE Key_name = 'PRIMARY'", ARRAY_A );
+		$keys = $wpdb->get_results( 'SHOW KEYS FROM ' . self::ident( $table ) . " WHERE Key_name = 'PRIMARY'", ARRAY_A );
 		return ( is_array( $keys ) && count( $keys ) === 1 ) ? $keys[0]['Column_name'] : null;
 	}
 
@@ -117,10 +124,10 @@ class PBK_Sql_Exporter {
 		}
 		$pk = $state['pk'];
 		if ( $pk && $state['key'] !== null ) {
-			$where[] = $wpdb->prepare( "`$pk` > %s", $state['key'] );
+			$where[] = $wpdb->prepare( self::ident( $pk ) . ' > %s', $state['key'] );
 		}
-		$sql = "SELECT * FROM `$name`" . ( $where ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-		$sql .= $pk ? " ORDER BY `$pk` LIMIT " . self::ROWS : ' LIMIT ' . (int) $state['offset'] . ', ' . self::ROWS;
+		$sql  = 'SELECT * FROM ' . self::ident( $name ) . ( $where ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+		$sql .= $pk ? ' ORDER BY ' . self::ident( $pk ) . ' LIMIT ' . self::ROWS : ' LIMIT ' . (int) $state['offset'] . ', ' . self::ROWS;
 		$rows = $wpdb->get_results( $sql, ARRAY_A );
 		if ( $wpdb->last_error ) {
 			throw new PBK_Exception( 'Database error while exporting ' . $name . ': ' . $wpdb->last_error );

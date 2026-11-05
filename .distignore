@@ -1,0 +1,16 @@
+/.git
+/.github
+/docs
+/tests
+/vendor
+/bin
+/.phpunit.cache
+/.distignore
+/.gitignore
+/composer.json
+/composer.lock
+/phpunit.xml.dist
+/ROADMAP.md
+/README.md
+/.playwright-cli
+/dist

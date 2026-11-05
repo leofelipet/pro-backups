@@ -2,6 +2,7 @@
 # Builds .wpress fixtures with the real AI1WM plugin on the src test site.
 #   small fixtures (committed)  -> tests/fixtures/ai1wm-*.wpress
 #   full-site fixtures (ignored) -> tests/fixtures/large/*.wpress
+# FIXTURES=<dir> writes elsewhere (the matrix builds per-version fixtures).
 # Optional: BIG=1 also builds a >2 GB archive (sparse media file) in large/.
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -25,12 +26,13 @@ if [ "${BIG:-0}" = 1 ]; then
 	docker compose exec -T src rm -f /var/www/html/wp-content/uploads/pbk-big.bin
 fi
 
-mkdir -p ../fixtures/large
+OUT=${FIXTURES:-../fixtures}
+mkdir -p "$OUT/large"
 B=/var/www/html/wp-content/ai1wm-backups
 for f in ai1wm-plain ai1wm-gzip ai1wm-bzip2 ai1wm-encrypted ai1wm-encrypted-gzip; do
-	docker compose cp "src:$B/$f.wpress" "../fixtures/$f.wpress" >/dev/null
+	docker compose cp "src:$B/$f.wpress" "$OUT/$f.wpress" >/dev/null
 done
 for f in $(docker compose exec -T src sh -c "ls $B | grep '^full-'"); do
-	docker compose cp "src:$B/$f" "../fixtures/large/$f" >/dev/null
+	docker compose cp "src:$B/$f" "$OUT/large/$f" >/dev/null
 done
-ls -la ../fixtures ../fixtures/large
+ls -la "$OUT" "$OUT/large"

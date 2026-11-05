@@ -10,6 +10,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.Security.EscapeOutput.ExceptionNotEscaped, WordPressVIPMinimum.Performance.WPQueryParams, WordPress.Security.NonceVerification -- nonces are verified in check() / guard(); 'exclude' is a backup option, not a WP_Query argument.
+
 class PBK_Schedules {
 	const OPTION   = 'pbk_schedules';
 	const SETTINGS = 'pbk_settings';
@@ -175,7 +177,7 @@ class PBK_Schedules {
 			$too_many = $set['keep_count'] > 0 && $i >= $set['keep_count'];
 			$too_old  = $set['keep_days'] > 0 && $b['mtime'] < time() - $set['keep_days'] * DAY_IN_SECONDS;
 			$too_big  = $set['max_total_mb'] > 0 && $total > $set['max_total_mb'] * MB_IN_BYTES;
-			if ( $b['name'] !== $keep && ( $too_many || $too_old || $too_big ) && @unlink( $b['path'] ) ) {
+			if ( $b['name'] !== $keep && ( $too_many || $too_old || $too_big ) && self::remove( $b['path'] ) ) {
 				$deleted[] = $b['name'];
 				$total    -= $b['size'];
 			}
@@ -185,6 +187,12 @@ class PBK_Schedules {
 			$job->save();
 		}
 		return $deleted;
+	}
+
+	private static function remove( $path ) {
+		wp_delete_file( $path );
+		clearstatcache( true, $path );
+		return ! file_exists( $path );
 	}
 
 	// ---- admin handlers ---------------------------------------------------------------------

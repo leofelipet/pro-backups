@@ -15,7 +15,7 @@ restore() { # $1 fixture, $2 password ('' = none)
 	cli plugin activate pro-backups >/dev/null
 	cli option update pbk_keep_me "survives" >/dev/null
 	docker compose exec -T dst mkdir -p /var/www/html/wp-content/pro-backups
-	docker compose cp "../fixtures/large/$fixture" "dst:/var/www/html/wp-content/pro-backups/$fixture" >/dev/null
+	docker compose cp "${FIXTURES:-../fixtures}/large/$fixture" "dst:/var/www/html/wp-content/pro-backups/$fixture" >/dev/null
 	docker compose exec -T -u root dst chown -R www-data: /var/www/html/wp-content/pro-backups
 
 	local start; start=$(cli eval "\$j=PBK_Importer::start(PBK_Storage::find('$fixture')); echo json_encode(['id'=>\$j->id,'token'=>\$j->data['token']]);")
@@ -72,7 +72,7 @@ if docker compose exec -T dst php -m | grep -q bz2; then
 else
 	echo "== bzip2 without ext-bz2 must fail cleanly"
 	cli plugin activate pro-backups >/dev/null
-	docker compose cp ../fixtures/large/full-encrypted-bzip2.wpress dst:/var/www/html/wp-content/pro-backups/ >/dev/null 2>&1
+	docker compose cp ${FIXTURES:-../fixtures}/large/full-encrypted-bzip2.wpress dst:/var/www/html/wp-content/pro-backups/ >/dev/null 2>&1
 	docker compose exec -T -u root dst chown -R www-data: /var/www/html/wp-content/pro-backups
 	start=$(cli eval "\$j=PBK_Importer::start(PBK_Storage::find('full-encrypted-bzip2.wpress')); echo json_encode(['id'=>\$j->id,'token'=>\$j->data['token']]);")
 	out=$(curl -s -X POST "$AJAX" -d action=pbk_run -d id="$(echo "$start" | json id)" -d token="$(echo "$start" | json token)")

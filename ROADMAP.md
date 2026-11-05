@@ -100,11 +100,22 @@ vários GB sem timeout.
       **Sempre cria um backup completo antes**; exige digitar RESET (`includes/class-pbk-reset.php`).
 - Teste: `tests/integration/schedules-reset.sh` (cron + retenção + reset via web + desfazer restaurando o backup de segurança).
 
-### Fase 7 — Qualidade e lançamento
-- [ ] Matriz PHP 7.4–8.4, multisite, hosts com `max_execution_time` de 30 s.
-- [ ] Publicação no wordpress.org (sem trialware; sendo 100% free não há problema).
+### Fase 7 — Qualidade e lançamento ✅
+- [x] Matriz PHP 7.4–8.4, multisite, hosts com `max_execution_time` de 30 s.
+      `tests/matrix.sh`: PHP 7.4 (WP 6.1), 8.3, 8.4 com MariaDB 11 e PHP 8.3 com MySQL 8.4 — suíte de integração
+      completa verde em todos. SQLite (`sqlite.sh`), multisite recusado sem alterar nada (`multisite.sh`),
+      orçamento de 0,1 s por requisição (`stress.sh`; achou e corrigiu o bug da tabela `options` dividida entre
+      requisições — agora importada de forma atômica), backup de 2,2 GB por HTTP (`big.sh`). CI no GitHub Actions.
+- [x] Publicação no wordpress.org (sem trialware; sendo 100% free não há problema): pacote pronto —
+      `readme.txt` no formato oficial, `uninstall.php`, `languages/pro-backups.pot`, **Plugin Check sem erros**,
+      zip em `bin/build-zip.sh` e release no GitHub. A submissão em wordpress.org/plugins/developers/add/ precisa
+      ser feita pelo dono da conta wordpress.org (revisão manual da equipe de plugins).
 
-## Não verificado ainda
-- Detalhes dos passos de banco (`class-ai1wm-import-database.php`) e do bloco EOF v2.
-- Auditoria completa de malware no zip crackeado.
-- Estimativas de prazo são grosseiras.
+## Limitações conhecidas
+- Backups de rede multisite e restore em multisite: recusados com mensagem clara (o AI1WM grátis também não exporta rede).
+- Enumeração de arquivos do backup roda numa única requisição (rápida, sem ler conteúdo); sites com centenas de
+  milhares de arquivos em hosts muito lentos podem precisar torná-la retomável (marcado com `shortcut:` no código).
+- Em nginx, a pasta `wp-content/pro-backups/` precisa de uma regra `deny` (o `.htaccess` não vale lá); os arquivos
+  de job já são `.php` com `exit`, mas os `.wpress` dependem dessa regra ou do nome aleatório.
+- Se uma requisição morrer (fatal/timeout do servidor) no meio do banco, o restore não é desfeito automaticamente:
+  restaure novamente o mesmo backup ou o backup anterior.

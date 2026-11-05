@@ -4,3 +4,6 @@
 /tests/env/.data/
 .phpunit.cache/
 .phpunit.result.cache
+/tests/fixtures/matrix-*/
+/dist/
+.playwright-cli/

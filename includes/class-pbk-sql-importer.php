@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.ExceptionNotEscaped -- streams database.sql from disk.
+
 class PBK_Sql_Importer {
 	const PREFIX_PLACEHOLDER = 'SERVMASK_PREFIX_';
 
@@ -48,10 +50,11 @@ class PBK_Sql_Importer {
 			if ( ! preg_match( '/;\s*$/S', $query ) ) {
 				continue;
 			}
-			$this->statement( trim( $query ), $state );
+			$atomic       = $this->statement( trim( $query ), $state );
 			$query        = '';
 			$state['pos'] = ftell( $fh );
-			if ( microtime( true ) >= $deadline ) {
+			// Never stop inside the options table: the next request could not boot WordPress without it.
+			if ( ! $atomic && microtime( true ) >= $deadline ) {
 				$done = fgets( $fh ) === false;
 				break;
 			}
@@ -66,12 +69,17 @@ class PBK_Sql_Importer {
 		return $done;
 	}
 
+	/** @return bool true while inside the options table (from its DROP until its last INSERT). */
 	private function statement( $query, array &$state ) {
+		$state += array( 'atomic' => false );
 		// Transactions are managed per request (a request may stop between START and COMMIT).
 		if ( preg_match( '/^(START TRANSACTION|COMMIT|BEGIN)\s*;?$/i', $query ) || $query === '' ) {
-			return;
+			return $state['atomic'];
 		}
 		$query = str_ireplace( self::PREFIX_PLACEHOLDER, $this->prefix, $query );
+		if ( preg_match( '/^\s*(?:DROP TABLE(?: IF EXISTS)?|CREATE TABLE(?: IF NOT EXISTS)?|INSERT INTO|DROP VIEW(?: IF EXISTS)?|CREATE(?:\s+\w+(?:=\S+)?)*\s+VIEW)\s+`?([^`\s(]+)`?/i', $query, $m ) ) {
+			$state['atomic'] = strcasecmp( $m[1], $this->prefix . 'options' ) === 0;
+		}
 		$ddl   = (bool) preg_match( '/^\s*CREATE\s+(TABLE|(ALGORITHM|DEFINER|SQL|VIEW|OR REPLACE)\b)/i', $query );
 		if ( ! $ddl ) {
 			$query = $this->replace->sql( $query );
@@ -92,6 +100,7 @@ class PBK_Sql_Importer {
 				$state['errors'][] = $error . ' — ' . substr( $query, 0, 200 );
 			}
 		}
+		return $state['atomic'];
 	}
 
 	private function exec_quiet( $sql ) {

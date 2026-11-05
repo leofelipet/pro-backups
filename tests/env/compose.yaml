@@ -33,6 +33,7 @@ services:
     image: ${DB_IMAGE:-mariadb:11}
     environment:
       MARIADB_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
     healthcheck:
       test: ["CMD-SHELL", "mariadb -uroot -proot -e 'SELECT 1' >/dev/null 2>&1 || mysql -uroot -proot -e 'SELECT 1' >/dev/null 2>&1"]
       interval: 2s

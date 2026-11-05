@@ -8,6 +8,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.WP.AlternativeFunctions, WordPress.Security.EscapeOutput.ExceptionNotEscaped -- chunked upload appends to a file with native handles + flock(); messages are returned as JSON.
+
 class PBK_Upload {
 	const MAX_CHUNK = 5242880; // 5 MB
 
