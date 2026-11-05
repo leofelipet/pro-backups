@@ -18,3 +18,10 @@ define( 'PBK_VERSION', '0.1.0' );
 define( 'PBK_FILE', __FILE__ );
 define( 'PBK_DIR', __DIR__ );
 define( 'PBK_BASENAME', plugin_basename( __FILE__ ) );
+
+foreach ( array( 'archive', 'replace', 'sql-importer', 'storage', 'job', 'importer', 'plugin' ) as $pbk_file ) {
+	require_once PBK_DIR . "/includes/class-pbk-$pbk_file.php";
+}
+unset( $pbk_file );
+
+add_action( 'plugins_loaded', array( 'PBK_Plugin', 'init' ) );

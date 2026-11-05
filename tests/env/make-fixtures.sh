@@ -17,6 +17,7 @@ cli eval-file $E ai1wm-encrypted.wpress none secret123 small
 cli eval-file $E ai1wm-encrypted-gzip.wpress gzip secret123 small
 cli eval-file $E full-plain.wpress none
 cli eval-file $E full-encrypted-bzip2.wpress bzip2 secret123
+cli eval-file $E full-encrypted-gzip.wpress gzip secret123
 
 if [ "${BIG:-0}" = 1 ]; then
 	docker compose exec -T src sh -c 'head -c 2200000000 /dev/urandom > /var/www/html/wp-content/uploads/pbk-big.bin'

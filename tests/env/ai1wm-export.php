@@ -25,6 +25,15 @@ if ( $small ) {
 	$options['no_plugins'] = 1;
 }
 
+// This plugin's folder is bind-mounted into the test site (with fixtures + vendor): keep it out.
+add_filter(
+	'ai1wm_exclude_plugins_from_export',
+	function ( $filters ) {
+		$filters[] = 'pro-backups';
+		return $filters;
+	}
+);
+
 $params = array(
 	'secret_key' => get_option( AI1WM_SECRET_KEY ),
 	'archive'    => $name,

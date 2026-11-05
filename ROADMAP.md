@@ -61,12 +61,16 @@ vários GB sem timeout.
 - [x] **Segurança:** bloquear caminhos com `../` e absolutos dentro do arquivo (path traversal) — `PBK_Archive::safe_path()`.
 - [x] Testes PHPUnit com os backups da Fase 0 (`tests/unit/ArchiveReaderTest.php`; rodar com `vendor/bin/phpunit`).
 
-### Fase 2 — Pipeline de restore
-- [ ] Portar os passos validate → clean, mantendo a máquina de estados por AJAX + status por polling.
-- [ ] Banco (parte mais delicada): troca de URLs/caminhos inclusive em dados serializados, prefixo de tabelas,
-      MySQL/MariaDB/SQLite (portar `Ai1wm_Database*`).
-- [ ] Capability `manage_options`, nonce e secret key; pasta de storage protegida
-      (`.htaccess`, `index.php`, `web.config`).
+### Fase 2 — Pipeline de restore ✅
+- [x] Passos validate → crc → password → confirm → extract (arquivos + database.sql numa só passada) → database → finalize
+      (`includes/class-pbk-importer.php`), máquina de estados em arquivo (`PBK_Job`) avançada por AJAX (`pbk_run`),
+      cada resposta devolve o status (o polling é a própria chamada `pbk_run`).
+- [x] Banco: troca de URLs/caminhos/e-mails inclusive em dados serializados (`PBK_Replace`), prefixo de tabelas
+      (`SERVMASK_PREFIX_`), fallback de collation (MySQL 8 ↔ MariaDB), MySQL/MariaDB via mysqli e SQLite via `$wpdb`
+      (matriz de bancos testada na Fase 7). Durante o restore só este plugin fica ativo e o tema não é carregado.
+- [x] `manage_options` + nonce para iniciar; token aleatório por job para continuar (sobrevive à troca do banco);
+      pasta de storage protegida (`.htaccess`, `index.php`, `web.config`); arquivos de job com guarda `<?php exit; ?>`.
+- Teste de ponta a ponta: `tests/integration/restore.sh` (backups reais do AI1WM, sem/ com criptografia, gzip, erro de bz2).
 
 ### Fase 3 — Sem limite de tamanho (o recurso principal)
 - [ ] Uploader JS em chunks de 5 MB, com retentativas e retomada; checagem de espaço em disco.
