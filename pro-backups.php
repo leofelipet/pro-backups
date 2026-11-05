@@ -25,3 +25,8 @@ foreach ( array( 'archive', 'replace', 'sql-importer', 'storage', 'job', 'import
 unset( $pbk_file );
 
 add_action( 'plugins_loaded', array( 'PBK_Plugin', 'init' ) );
+
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	require_once PBK_DIR . '/includes/class-pbk-cli.php';
+	WP_CLI::add_command( 'pro-backups', 'PBK_CLI' );
+}

@@ -15,14 +15,14 @@ $post_id = wp_insert_post(
 		'post_status'  => 'publish',
 	)
 );
-update_post_meta( $post_id, 'pbk_serialized', array( 'url' => $url, 'nested' => array( 'path' => WP_CONTENT_DIR ) ) );
-update_option( 'pbk_fixture_option', array( 'home' => $url, 'list' => array( $url . '/a', $url . '/b' ) ) );
-update_option( 'pbk_fixture_marker', 'restored-from-src' );
+update_post_meta( $post_id, 'fx_serialized', array( 'url' => $url, 'nested' => array( 'path' => WP_CONTENT_DIR ) ) );
+update_option( 'fx_option', array( 'home' => $url, 'list' => array( $url . '/a', $url . '/b' ) ) );
+update_option( 'fx_marker', 'restored-from-src' );
 
 $upload = wp_upload_dir();
 file_put_contents( $upload['basedir'] . '/pbk-fixture.txt', 'pbk fixture media' );
 
-$wpdb->query( "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}pbk_custom (id INT AUTO_INCREMENT PRIMARY KEY, v LONGTEXT) DEFAULT CHARSET=utf8mb4" );
-$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}pbk_custom (v) VALUES (%s), (%s)", "line1\nline2 ; with semicolon;\n", $url ) );
+$wpdb->query( "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}fx_custom (id INT AUTO_INCREMENT PRIMARY KEY, v LONGTEXT) DEFAULT CHARSET=utf8mb4" );
+$wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}fx_custom (v) VALUES (%s), (%s)", "line1\nline2 ; with semicolon;\n", $url ) );
 
 WP_CLI::success( "seeded post $post_id" );

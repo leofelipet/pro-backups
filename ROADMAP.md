@@ -80,9 +80,10 @@ vários GB sem timeout.
 - Testes: `tests/integration/upload.php` (retomada/duplicado/lacuna) e `tests/integration/ui-restore.sh`
   (navegador: 15 MB enviados com `upload_max_filesize=2M`, senha, confirmação, restore completo).
 
-### Fase 4 — Página de backups e WP-CLI
-- [ ] Listar / restaurar / baixar / excluir.
-- [ ] `wp pro-backups restore <arquivo>` (recurso pago no AI1WM).
+### Fase 4 — Página de backups e WP-CLI ✅
+- [x] Listar / restaurar / baixar / excluir (download autenticado via `admin-post.php` com nonce; storage não é público).
+- [x] `wp pro-backups restore <arquivo|caminho> [--password=] [--yes]`, `wp pro-backups list`, `wp pro-backups delete`.
+- Teste: `tests/integration/cli-and-files.sh`.
 
 ### Fase 5 — Export (opcional)
 - [ ] Gerar `.wpress` compatível com o AI1WM.

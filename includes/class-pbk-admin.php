@@ -14,6 +14,66 @@ class PBK_Admin {
 		add_action( 'admin_menu', array( __CLASS__, 'menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'assets' ) );
 		add_filter( 'plugin_action_links_' . PBK_BASENAME, array( __CLASS__, 'action_links' ) );
+		add_action( 'admin_post_pbk_download', array( __CLASS__, 'download' ) );
+		add_action( 'admin_post_pbk_delete', array( __CLASS__, 'delete' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'notices' ) );
+	}
+
+	private static function file_action_guard( $action ) {
+		$file = isset( $_GET['file'] ) ? sanitize_file_name( wp_unslash( $_GET['file'] ) ) : '';
+		if ( ! current_user_can( PBK_Plugin::CAP ) || ! wp_verify_nonce( isset( $_GET['_wpnonce'] ) ? sanitize_key( $_GET['_wpnonce'] ) : '', $action . $file ) ) {
+			wp_die( esc_html__( 'Permission denied.', 'pro-backups' ), 403 );
+		}
+		try {
+			return PBK_Storage::find( $file );
+		} catch ( PBK_Exception $e ) {
+			wp_die( esc_html( $e->getMessage() ), 404 );
+		}
+	}
+
+	public static function action_url( $action, $file ) {
+		return wp_nonce_url( add_query_arg( array( 'action' => $action, 'file' => rawurlencode( $file ) ), admin_url( 'admin-post.php' ) ), $action . $file );
+	}
+
+	/** Streams a backup (storage is not web-accessible). */
+	public static function download() {
+		$path = self::file_action_guard( 'pbk_download' );
+		while ( ob_get_level() ) {
+			ob_end_clean();
+		}
+		if ( function_exists( 'set_time_limit' ) ) {
+			@set_time_limit( 0 );
+		}
+		nocache_headers();
+		header( 'Content-Type: application/octet-stream' );
+		header( 'Content-Disposition: attachment; filename="' . basename( $path ) . '"' );
+		header( 'Content-Length: ' . filesize( $path ) );
+		$fh = fopen( $path, 'rb' );
+		while ( ! feof( $fh ) && ! connection_aborted() ) {
+			echo fread( $fh, 1048576 ); // phpcs:ignore WordPress.Security.EscapeOutput -- binary file
+			flush();
+		}
+		fclose( $fh );
+		exit;
+	}
+
+	public static function delete() {
+		$path = self::file_action_guard( 'pbk_delete' );
+		$ok   = @unlink( $path );
+		wp_safe_redirect( self::url( 'backups', array( 'pbk_notice' => $ok ? 'deleted' : 'delete_failed' ) ) );
+		exit;
+	}
+
+	public static function notices() {
+		$notice = isset( $_GET['pbk_notice'] ) ? sanitize_key( $_GET['pbk_notice'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+		$map    = array(
+			'deleted'       => array( 'success', __( 'Backup deleted.', 'pro-backups' ) ),
+			'delete_failed' => array( 'error', __( 'Could not delete the backup (check file permissions).', 'pro-backups' ) ),
+			'saved'         => array( 'success', __( 'Settings saved.', 'pro-backups' ) ),
+		);
+		if ( isset( $map[ $notice ] ) ) {
+			printf( '<div class="notice notice-%s is-dismissible"><p>%s</p></div>', esc_attr( $map[ $notice ][0] ), esc_html( $map[ $notice ][1] ) );
+		}
 	}
 
 	/** @return array slug => [label, callback] */
@@ -137,7 +197,9 @@ class PBK_Admin {
 	}
 
 	public static function row_actions( array $b ) {
-		$html = sprintf( '<button type="button" class="button pbk-restore" data-file="%s">%s</button>', esc_attr( $b['name'] ), esc_html__( 'Restore', 'pro-backups' ) );
+		$html  = sprintf( '<button type="button" class="button button-primary pbk-restore" data-file="%s">%s</button>', esc_attr( $b['name'] ), esc_html__( 'Restore', 'pro-backups' ) );
+		$html .= sprintf( '<a class="button" href="%s">%s</a>', esc_url( self::action_url( 'pbk_download', $b['name'] ) ), esc_html__( 'Download', 'pro-backups' ) );
+		$html .= sprintf( '<a class="button pbk-delete" href="%s">%s</a>', esc_url( self::action_url( 'pbk_delete', $b['name'] ) ), esc_html__( 'Delete', 'pro-backups' ) );
 		return apply_filters( 'pbk_row_actions', $html, $b );
 	}
 

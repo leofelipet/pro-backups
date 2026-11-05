@@ -8,7 +8,7 @@ cd "$(dirname "$0")"
 cli() { docker compose run --rm -T -e HOME=/tmp cli-src "$@" 2>&1 | grep -v 'Container' || true; }
 E=wp-content/plugins/pro-backups/tests/env/ai1wm-export.php
 cli plugin activate all-in-one-wp-migration >/dev/null
-cli option get pbk_fixture_marker >/dev/null 2>&1 || cli eval-file wp-content/plugins/pro-backups/tests/env/seed.php
+docker compose run --rm -T -e HOME=/tmp cli-src option get fx_marker >/dev/null 2>&1 || cli eval-file wp-content/plugins/pro-backups/tests/env/seed.php
 
 cli eval-file $E ai1wm-plain.wpress none - small
 cli eval-file $E ai1wm-gzip.wpress gzip - small

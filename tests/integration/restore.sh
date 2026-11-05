@@ -52,12 +52,12 @@ restore() { # $1 fixture, $2 password ('' = none)
 	code=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$AJAX" -d action=pbk_run -d id="$id" -d token=nope)
 	[ "$code" = 404 ] || fail "bad token accepted ($code)"
 
-	[ "$(cli option get pbk_fixture_marker)" = restored-from-src ] || fail "marker option"
+	[ "$(cli option get fx_marker)" = restored-from-src ] || fail "marker option"
 	[ "$(cli option get siteurl)" = "$URL" ] || fail "siteurl changed"
 	[ "$(cli option get pbk_keep_me)" = survives ] || fail "own options not preserved"
-	cli eval "\$o=get_option('pbk_fixture_option'); exit(\$o['home']==='$URL' && \$o['list'][1]==='$URL/b' ? 0 : 1);" || fail "serialized option not replaced"
-	cli eval "\$p=get_page_by_title('PBK Fixture Post', OBJECT, 'post'); \$m=get_post_meta(\$p->ID,'pbk_serialized',true); exit(strpos(\$p->post_content,'$URL/hello/')!==false && strpos(\$p->post_content,'localhost:8091')===false && \$m['url']==='$URL' && \$m['nested']['path']===WP_CONTENT_DIR ? 0 : 1);" || fail "post content/meta not replaced"
-	cli eval 'global $wpdb; $v=$wpdb->get_col("SELECT v FROM {$wpdb->prefix}pbk_custom ORDER BY id"); exit($v[0]==="line1\nline2 ; with semicolon;\n" && $v[1]==="http://localhost:8092" ? 0 : 1);' || fail "custom table"
+	cli eval "\$o=get_option('fx_option'); exit(\$o['home']==='$URL' && \$o['list'][1]==='$URL/b' ? 0 : 1);" || fail "serialized option not replaced"
+	cli eval "\$p=get_page_by_title('PBK Fixture Post', OBJECT, 'post'); \$m=get_post_meta(\$p->ID,'fx_serialized',true); exit(strpos(\$p->post_content,'$URL/hello/')!==false && strpos(\$p->post_content,'localhost:8091')===false && \$m['url']==='$URL' && \$m['nested']['path']===WP_CONTENT_DIR ? 0 : 1);" || fail "post content/meta not replaced"
+	cli eval 'global $wpdb; $v=$wpdb->get_col("SELECT v FROM {$wpdb->prefix}fx_custom ORDER BY id"); exit($v[0]==="line1\nline2 ; with semicolon;\n" && $v[1]==="http://localhost:8092" ? 0 : 1);' || fail "custom table"
 	docker compose exec -T dst test -f /var/www/html/wp-content/uploads/pbk-fixture.txt || fail "media file"
 	cli plugin is-active pro-backups || fail "plugin not active after restore"
 	cli user check-password admin admin || fail "admin login from backup"
