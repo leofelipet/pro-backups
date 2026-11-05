@@ -108,7 +108,7 @@ vários GB sem timeout.
       requisições — agora importada de forma atômica), backup de 2,2 GB por HTTP (`big.sh`). CI no GitHub Actions.
 - [x] Publicação no wordpress.org (sem trialware; sendo 100% free não há problema): pacote pronto —
       `readme.txt` no formato oficial, `uninstall.php`, `languages/pro-backups.pot`, **Plugin Check sem erros**,
-      zip em `bin/build-zip.sh` e release no GitHub. A submissão em wordpress.org/plugins/developers/add/ precisa
+      zip em `bin/build-zip.sh` (tag/release no GitHub ainda não criados). A submissão em wordpress.org/plugins/developers/add/ precisa
       ser feita pelo dono da conta wordpress.org (revisão manual da equipe de plugins).
 
 ## Limitações conhecidas
