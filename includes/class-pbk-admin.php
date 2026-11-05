@@ -83,7 +83,10 @@ class PBK_Admin {
 			'pbk_admin_tabs',
 			array(
 				'backups' => array( __( 'Backups', 'pro-backups' ), array( __CLASS__, 'tab_backups' ) ),
-				'create'  => array( __( 'Create backup', 'pro-backups' ), array( __CLASS__, 'tab_create' ) ),
+				'create'    => array( __( 'Create backup', 'pro-backups' ), array( __CLASS__, 'tab_create' ) ),
+				'schedules' => array( __( 'Schedules', 'pro-backups' ), array( 'PBK_Schedules', 'tab_schedules' ) ),
+				'reset'     => array( __( 'Reset', 'pro-backups' ), array( 'PBK_Reset', 'tab_reset' ) ),
+				'settings'  => array( __( 'Settings', 'pro-backups' ), array( 'PBK_Schedules', 'tab_settings' ) ),
 			)
 		);
 	}
@@ -138,6 +141,7 @@ class PBK_Admin {
 					'done'         => __( 'Done', 'pro-backups' ),
 					'download'     => __( 'Download', 'pro-backups' ),
 					'creating'     => __( 'Creating backup', 'pro-backups' ),
+					'resetting'    => __( 'Backing up, then resetting', 'pro-backups' ),
 				),
 			)
 		);

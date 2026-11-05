@@ -242,6 +242,19 @@
 		});
 	}
 
+	var resetForm = $('#pbk-reset-form');
+	if (resetForm) {
+		resetForm.addEventListener('submit', function (e) {
+			e.preventDefault();
+			window.PBKRunJob(t.resetting, 'pbk_reset_start', new FormData(resetForm));
+		});
+	}
+
+	document.addEventListener('click', function (e) {
+		var run = e.target.closest('.pbk-run-now');
+		if (run) { window.PBKRunJob(t.creating, 'pbk_schedule_run', { id: run.getAttribute('data-id') }); }
+	});
+
 	// Other screens start jobs through this hook.
 	window.PBKRunJob = function (title, action, fields) {
 		modal.open(title);

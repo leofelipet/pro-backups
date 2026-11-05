@@ -30,8 +30,13 @@ class PBK_Plugin {
 		if ( ! wp_next_scheduled( 'pbk_cleanup' ) ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'pbk_cleanup' );
 		}
-		if ( self::is_job_request() ) {
-			// The active theme may be half-restored: don't load its functions.php while a job runs.
+		PBK_Schedules::init();
+		PBK_Reset::init();
+		add_action( 'pbk_restore_done', array( 'PBK_Schedules', 'ensure_events' ) );
+		$job = self::is_job_request() ? PBK_Job::load( sanitize_key( wp_unslash( $_REQUEST['id'] ?? '' ) ) ) : null; // phpcs:ignore WordPress.Security.NonceVerification -- token checked by the handler
+		if ( $job && $job->data['type'] === 'import' ) {
+			// The active theme may be half-restored: don't load its functions.php while a restore runs.
+			// (Only for imports: exports and resets must see the real template/stylesheet options.)
 			add_filter( 'pre_option_template', array( __CLASS__, 'no_theme' ) );
 			add_filter( 'pre_option_stylesheet', array( __CLASS__, 'no_theme' ) );
 		}

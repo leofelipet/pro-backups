@@ -92,8 +92,13 @@ vários GB sem timeout.
       arquivos/pastas e tabelas específicas (aba "Create backup" e `wp pro-backups backup --exclude=...`).
 - Testes: `tests/unit/ArchiveWriterTest.php`, `tests/integration/export.sh` (Pro Backups ↔ AI1WM), `tests/integration/ui-export.sh`.
 
-### Fase 6 — Extras da Unlimited (depois)
-- [ ] Agendamentos (WP-Cron), retenção, ferramentas de reset.
+### Fase 6 — Extras da Unlimited ✅
+- [x] Agendamentos (WP-Cron): horária, 2×/dia, diária, semanal, mensal, com horário inicial; backups grandes continuam
+      em eventos `pbk_job_continue`; "Run now"; eventos re-registrados após um restore (`includes/class-pbk-schedules.php`).
+- [x] Retenção: manter N backups, apagar mais antigos que X dias, limite de tamanho total (aba Settings).
+- [x] Ferramentas de reset: mídia, plugins, temas (mantém o ativo), banco (instalação limpa mantendo login/URL/título).
+      **Sempre cria um backup completo antes**; exige digitar RESET (`includes/class-pbk-reset.php`).
+- Teste: `tests/integration/schedules-reset.sh` (cron + retenção + reset via web + desfazer restaurando o backup de segurança).
 
 ### Fase 7 — Qualidade e lançamento
 - [ ] Matriz PHP 7.4–8.4, multisite, hosts com `max_execution_time` de 30 s.

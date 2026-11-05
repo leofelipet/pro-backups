@@ -7,8 +7,9 @@ cli() { docker compose run --rm -T -e HOME=/tmp cli-dst "$@" 2>&1 | grep -v Cont
 fail() { echo "FAIL: $*"; exit 1; }
 put() { docker compose cp "../fixtures/large/$1" "dst:/var/www/html/wp-content/pro-backups/$1" >/dev/null 2>&1; docker compose exec -T -u root dst chown -R www-data: /var/www/html/wp-content/pro-backups; }
 
+cli plugin activate pro-backups >/dev/null
 put full-plain.wpress; put full-encrypted-gzip.wpress
-cli pro-backups list | grep -q full-plain.wpress || fail "list"
+out=$(cli pro-backups list); echo "$out" | grep -q full-plain.wpress || fail "list"
 cli option update fx_marker before >/dev/null
 cli pro-backups restore full-plain.wpress --yes | tail -1 | grep -q "Success: Restore complete" || fail "cli restore"
 [ "$(cli option get fx_marker)" = restored-from-src ] || fail "cli restore data"
