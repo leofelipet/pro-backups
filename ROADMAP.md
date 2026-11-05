@@ -55,11 +55,11 @@ vários GB sem timeout.
       completos em `tests/fixtures/large/`, >2 GB com `BIG=1`). Multisite: o AI1WM grátis não exporta rede
       (exige extensão paga), então não há fixture real; o plugin detecta `multisite.json` e recusa com mensagem clara.
 
-### Fase 1 — Leitor .wpress (núcleo)
-- [ ] Listar, extrair em streaming e retomar por offset (portar `Ai1wm_Extractor`).
-- [ ] Validação de CRC, descompressão, descriptografia.
-- [ ] **Segurança:** bloquear caminhos com `../` e absolutos dentro do arquivo (path traversal).
-- [ ] Testes PHPUnit com os backups da Fase 0.
+### Fase 1 — Leitor .wpress (núcleo) ✅
+- [x] Listar, extrair em streaming e retomar por offset (`includes/class-pbk-archive.php`, `PBK_Archive_Reader`).
+- [x] Validação de CRC (EOF v2, retomável via `crc32_combine`), descompressão gzip/bzip2, descriptografia AES-256-CBC.
+- [x] **Segurança:** bloquear caminhos com `../` e absolutos dentro do arquivo (path traversal) — `PBK_Archive::safe_path()`.
+- [x] Testes PHPUnit com os backups da Fase 0 (`tests/unit/ArchiveReaderTest.php`; rodar com `vendor/bin/phpunit`).
 
 ### Fase 2 — Pipeline de restore
 - [ ] Portar os passos validate → clean, mantendo a máquina de estados por AJAX + status por polling.
