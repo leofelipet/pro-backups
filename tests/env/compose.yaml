@@ -1,0 +1,81 @@
+# Test environment: two WordPress sites (src / dst) sharing one MariaDB server.
+# Usage: tests/env/up.sh   (PHP version via WP_IMAGE / CLI_IMAGE env vars)
+name: pbk-test
+
+x-wp: &wp
+  image: ${WP_IMAGE:-wordpress:php8.3-apache}
+  depends_on:
+    db:
+      condition: service_healthy
+  environment: &wpenv
+    WORDPRESS_DB_HOST: db:3306
+    WORDPRESS_DB_USER: root
+    WORDPRESS_DB_PASSWORD: root
+    WORDPRESS_CONFIG_EXTRA: "define('FS_METHOD','direct');"
+
+x-cli: &cli
+  build:
+    context: .
+    dockerfile: Dockerfile.cli
+    args:
+      CLI_IMAGE: ${CLI_IMAGE:-wordpress:cli-php8.3}
+  image: pbk-test-cli:${CLI_TAG:-php8.3}
+  user: "33:33"
+  depends_on:
+    db:
+      condition: service_healthy
+  working_dir: /var/www/html
+  entrypoint: ["wp"]
+  profiles: ["cli"]
+
+services:
+  db:
+    image: ${DB_IMAGE:-mariadb:11}
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb -uroot -proot -e 'SELECT 1' >/dev/null 2>&1 || mysql -uroot -proot -e 'SELECT 1' >/dev/null 2>&1"]
+      interval: 2s
+      retries: 60
+
+  src:
+    <<: *wp
+    ports: ["8091:80"]
+    environment:
+      <<: *wpenv
+      WORDPRESS_DB_NAME: src
+    volumes:
+      - src:/var/www/html
+      - ../..:/var/www/html/wp-content/plugins/pro-backups
+
+  dst:
+    <<: *wp
+    ports: ["8092:80"]
+    environment:
+      <<: *wpenv
+      WORDPRESS_DB_NAME: dst
+    volumes:
+      - dst:/var/www/html
+      - ../..:/var/www/html/wp-content/plugins/pro-backups
+
+  cli-src:
+    <<: *cli
+    environment:
+      <<: *wpenv
+      WORDPRESS_DB_NAME: src
+    volumes:
+      - src:/var/www/html
+      - ../..:/var/www/html/wp-content/plugins/pro-backups
+
+  cli-dst:
+    <<: *cli
+    environment:
+      <<: *wpenv
+      WORDPRESS_DB_NAME: dst
+    volumes:
+      - dst:/var/www/html
+      - ../..:/var/www/html/wp-content/plugins/pro-backups
+
+volumes:
+  src:
+  dst:

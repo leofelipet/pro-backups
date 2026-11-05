@@ -1,0 +1,6 @@
+# WP-CLI image + bz2 (needed to build/verify bzip2 fixtures).
+ARG CLI_IMAGE=wordpress:cli-php8.3
+FROM ${CLI_IMAGE}
+USER root
+RUN apk add --no-cache bzip2-dev $PHPIZE_DEPS && docker-php-ext-install bz2 && apk del $PHPIZE_DEPS
+USER www-data

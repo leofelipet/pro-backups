@@ -1,0 +1,6 @@
+/docs/*.zip
+/vendor/
+/tests/fixtures/large/
+/tests/env/.data/
+.phpunit.cache/
+.phpunit.result.cache
