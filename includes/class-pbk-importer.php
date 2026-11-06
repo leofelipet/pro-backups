@@ -86,7 +86,7 @@ class PBK_Importer {
 		PBK_Archive::check_support( $type, empty( $pkg['Encrypted'] ) ? null : 'x' );
 		$s['package'] = $pkg;
 		$s['size']    = $reader->size();
-		$job->log( sprintf( 'Backup of %s (WordPress %s), %s.', $pkg['SiteURL'], isset( $pkg['WordPress']['Version'] ) ? $pkg['WordPress']['Version'] : '?', size_format( $s['size'] ) ) );
+		$job->log( sprintf( /* translators: 1: site URL, 2: WordPress version, 3: file size */ __( 'Backup of %1$s (WordPress %2$s), %3$s.', 'pro-backups' ), $pkg['SiteURL'], isset( $pkg['WordPress']['Version'] ) ? $pkg['WordPress']['Version'] : '?', size_format( $s['size'] ) ) );
 		$s['step'] = 'crc';
 	}
 
@@ -144,7 +144,7 @@ class PBK_Importer {
 		$s['site']             = array( 'siteurl' => get_option( 'siteurl' ), 'home' => get_option( 'home' ) );
 		$s['keep_options']     = self::own_options();
 		update_option( 'active_plugins', array( PBK_BASENAME ) );
-		$job->log( 'Confirmed. Restoring files.' );
+		$job->log( __( 'Confirmed. Restoring files.', 'pro-backups' ) );
 		$s['step'] = 'extract';
 	}
 
@@ -207,7 +207,7 @@ class PBK_Importer {
 		$s += array( 'db' => array() );
 		if ( ! isset( $s['replace'] ) ) {
 			$s['replace'] = self::replacements( $s['package'] );
-			$job->log( sprintf( 'Restoring database (%d replacement rules).', count( $s['replace'] ) ) );
+			$job->log( sprintf( /* translators: %d: number of rules */ __( 'Restoring database (%d replacement rules).', 'pro-backups' ), count( $s['replace'] ) ) );
 		}
 		$file     = $job->dir() . '/database.sql';
 		$importer = new PBK_Sql_Importer( $wpdb->prefix, new PBK_Replace( $s['replace'] ), array( __CLASS__, 'exec' ) );
@@ -215,9 +215,9 @@ class PBK_Importer {
 		self::protect_running_site( $s );
 		$job->status( __( 'Restoring database...', 'pro-backups' ), 65 + 30 * $s['db']['pos'] / max( 1, filesize( $file ) ) );
 		if ( $done ) {
-			$job->log( sprintf( 'Database restored: %d queries, %d failed.', $s['db']['queries'], $s['db']['failed'] ) );
+			$job->log( sprintf( /* translators: 1: number of queries, 2: number of failed queries */ __( 'Database restored: %1$d queries, %2$d failed.', 'pro-backups' ), $s['db']['queries'], $s['db']['failed'] ) );
 			foreach ( $s['db']['errors'] as $error ) {
-				$job->log( 'SQL error: ' . $error );
+				$job->log( sprintf( /* translators: %s: database error */ __( 'SQL error: %s', 'pro-backups' ), $error ) );
 			}
 			$s['step'] = 'finalize';
 		}

@@ -52,7 +52,7 @@ class PBK_Archive {
 		$iv = openssl_random_pseudo_bytes( 16 );
 		$out = openssl_encrypt( $data, self::CIPHER, self::key( $password ), OPENSSL_RAW_DATA, $iv );
 		if ( $out === false ) {
-			throw new PBK_Exception( 'Could not encrypt data.' );
+			throw new PBK_Exception( __( 'Could not encrypt data.', 'pro-backups' ) );
 		}
 		return $iv . $out;
 	}
@@ -60,7 +60,7 @@ class PBK_Archive {
 	public static function decrypt( $data, $password ) {
 		$out = openssl_decrypt( substr( $data, 16 ), self::CIPHER, self::key( $password ), OPENSSL_RAW_DATA, substr( $data, 0, 16 ) );
 		if ( $out === false ) {
-			throw new PBK_Exception( 'Could not decrypt data. Wrong password or corrupted backup.' );
+			throw new PBK_Exception( __( 'Could not decrypt data. Wrong password or corrupted backup.', 'pro-backups' ) );
 		}
 		return $out;
 	}
@@ -90,19 +90,19 @@ class PBK_Archive {
 	public static function safe_path( $name ) {
 		$name = str_replace( '\\', '/', $name );
 		if ( $name === '' || strpos( $name, "\0" ) !== false || $name[0] === '/' || preg_match( '#^[a-z]+:#i', $name ) ) {
-			throw new PBK_Exception( 'Unsafe path in archive: ' . $name );
+			throw new PBK_Exception( sprintf( /* translators: %s: path inside the backup */ __( 'Unsafe path in archive: %s', 'pro-backups' ), $name ) );
 		}
 		$parts = array();
 		foreach ( explode( '/', $name ) as $part ) {
 			if ( $part === '..' ) {
-				throw new PBK_Exception( 'Unsafe path in archive: ' . $name );
+				throw new PBK_Exception( sprintf( /* translators: %s: path inside the backup */ __( 'Unsafe path in archive: %s', 'pro-backups' ), $name ) );
 			}
 			if ( $part !== '' && $part !== '.' ) {
 				$parts[] = $part;
 			}
 		}
 		if ( ! $parts ) {
-			throw new PBK_Exception( 'Unsafe path in archive: ' . $name );
+			throw new PBK_Exception( sprintf( /* translators: %s: path inside the backup */ __( 'Unsafe path in archive: %s', 'pro-backups' ), $name ) );
 		}
 		return implode( '/', $parts );
 	}
@@ -114,23 +114,23 @@ class PBK_Archive {
 	public static function decompress( $data, $type ) {
 		$out = $type === 'bzip2' ? bzdecompress( $data ) : gzuncompress( $data );
 		if ( ! is_string( $out ) ) {
-			throw new PBK_Exception( 'Could not decompress data. The backup is corrupted.' );
+			throw new PBK_Exception( __( 'Could not decompress data. The backup is corrupted.', 'pro-backups' ) );
 		}
 		return $out;
 	}
 
 	public static function check_support( $compression, $password ) {
 		if ( PHP_INT_SIZE < 8 ) {
-			throw new PBK_Exception( '64-bit PHP is required.' );
+			throw new PBK_Exception( __( '64-bit PHP is required.', 'pro-backups' ) );
 		}
 		if ( $compression === 'gzip' && ! function_exists( 'gzuncompress' ) ) {
-			throw new PBK_Exception( 'This backup is gzip-compressed but the PHP zlib extension is missing.' );
+			throw new PBK_Exception( __( 'This backup is gzip-compressed but the PHP zlib extension is missing.', 'pro-backups' ) );
 		}
 		if ( $compression === 'bzip2' && ! function_exists( 'bzdecompress' ) ) {
-			throw new PBK_Exception( 'This backup is bzip2-compressed but the PHP bz2 extension is missing.' );
+			throw new PBK_Exception( __( 'This backup is bzip2-compressed but the PHP bz2 extension is missing.', 'pro-backups' ) );
 		}
 		if ( $password !== null && $password !== '' && ! function_exists( 'openssl_decrypt' ) ) {
-			throw new PBK_Exception( 'This backup is encrypted but the PHP openssl extension is missing.' );
+			throw new PBK_Exception( __( 'This backup is encrypted but the PHP openssl extension is missing.', 'pro-backups' ) );
 		}
 	}
 }
@@ -151,7 +151,7 @@ class PBK_Archive_Reader {
 		$this->compression = $compression ?: null;
 		$this->handle      = @fopen( $file, 'rb' );
 		if ( ! $this->handle ) {
-			throw new PBK_Exception( 'Could not open backup file: ' . basename( $file ) );
+			throw new PBK_Exception( sprintf( /* translators: %s: file name */ __( 'Could not open backup file: %s', 'pro-backups' ), basename( $file ) ) );
 		}
 		$this->size = filesize( $file );
 		PBK_Archive::check_support( $this->compression, $this->password );
@@ -183,11 +183,11 @@ class PBK_Archive_Reader {
 	 */
 	public function header_at( $offset ) {
 		if ( fseek( $this->handle, $offset ) === -1 ) {
-			throw new PBK_Exception( 'Could not seek in backup file.' );
+			throw new PBK_Exception( __( 'Could not seek in backup file.', 'pro-backups' ) );
 		}
 		$block = fread( $this->handle, PBK_Archive::HEADER_SIZE );
 		if ( $block === false || strlen( $block ) !== PBK_Archive::HEADER_SIZE ) {
-			throw new PBK_Exception( 'Unexpected end of backup file. The upload may be incomplete.' );
+			throw new PBK_Exception( __( 'Unexpected end of backup file. The upload may be incomplete.', 'pro-backups' ) );
 		}
 		if ( PBK_Archive::parse_eof( $block ) !== false ) {
 			return null;
@@ -197,7 +197,7 @@ class PBK_Archive_Reader {
 		$path = trim( $d['path'] );
 		$size = trim( $d['size'] );
 		if ( $name === '' || ! ctype_digit( $size ) ) {
-			throw new PBK_Exception( 'Invalid file header in backup at offset ' . $offset . '.' );
+			throw new PBK_Exception( sprintf( /* translators: %s: byte offset */ __( 'Invalid file header in backup at offset %s.', 'pro-backups' ), $offset ) );
 		}
 		$full = ( $path === '' || $path === '.' ) ? $name : $path . '/' . $name;
 		return array(
@@ -254,11 +254,11 @@ class PBK_Archive_Reader {
 			}
 			$dir = dirname( $dest );
 			if ( ! is_dir( $dir ) && ! @mkdir( $dir, 0755, true ) && ! is_dir( $dir ) ) {
-				throw new PBK_Exception( 'Could not create directory: ' . $dir );
+				throw new PBK_Exception( sprintf( /* translators: %s: folder path */ __( 'Could not create directory: %s', 'pro-backups' ), $dir ) );
 			}
 			$fh = @fopen( $dest, $state['stored'] === 0 ? 'wb' : 'cb' );
 			if ( ! $fh ) {
-				throw new PBK_Exception( 'Could not write file: ' . $dest );
+				throw new PBK_Exception( sprintf( /* translators: %s: file path */ __( 'Could not write file: %s', 'pro-backups' ), $dest ) );
 			}
 			if ( $state['stored'] > 0 ) {
 				// Drop bytes a crashed request may have written after the last saved state.
@@ -269,7 +269,7 @@ class PBK_Archive_Reader {
 			}
 			$done = $this->extract_entry( $h, $state, function ( $data ) use ( $fh, $dest, &$state ) {
 				if ( fwrite( $fh, $data ) !== strlen( $data ) ) {
-					throw new PBK_Exception( 'Out of disk space while writing: ' . $dest );
+					throw new PBK_Exception( sprintf( /* translators: %s: file path */ __( 'Out of disk space while writing: %s', 'pro-backups' ), $dest ) );
 				}
 				$state['written'] += strlen( $data );
 			}, $deadline );
@@ -312,7 +312,7 @@ class PBK_Archive_Reader {
 				$state['stored'] += $len;
 			}
 			if ( $state['stored'] > $h['size'] ) {
-				throw new PBK_Exception( 'Corrupted chunk in backup file: ' . $h['name'] );
+				throw new PBK_Exception( sprintf( /* translators: %s: file name */ __( 'Corrupted chunk in backup file: %s', 'pro-backups' ), $h['name'] ) );
 			}
 			$sink( $chunk );
 			if ( $state['stored'] < $h['size'] && microtime( true ) >= $deadline ) {
@@ -328,7 +328,7 @@ class PBK_Archive_Reader {
 		}
 		$data = fread( $this->handle, $len );
 		if ( $data === false || strlen( $data ) !== $len ) {
-			throw new PBK_Exception( 'Unexpected end of backup file. The upload may be incomplete.' );
+			throw new PBK_Exception( __( 'Unexpected end of backup file. The upload may be incomplete.', 'pro-backups' ) );
 		}
 		return $data;
 	}
@@ -341,7 +341,7 @@ class PBK_Archive_Reader {
 	public function verify_crc( array &$state, $deadline ) {
 		$eof = $this->eof();
 		if ( $eof === false ) {
-			throw new PBK_Exception( 'This is not a valid .wpress file or the upload is incomplete.' );
+			throw new PBK_Exception( __( 'This is not a valid .wpress file or the upload is incomplete.', 'pro-backups' ) );
 		}
 		if ( ! $eof ) {
 			return true;
@@ -358,7 +358,7 @@ class PBK_Archive_Reader {
 			}
 		}
 		if ( $state['crc'] !== $eof['crc'] ) {
-			throw new PBK_Exception( 'Backup checksum mismatch. The file is corrupted or the upload is incomplete.' );
+			throw new PBK_Exception( __( 'Backup checksum mismatch. The file is corrupted or the upload is incomplete.', 'pro-backups' ) );
 		}
 		return true;
 	}
@@ -380,19 +380,19 @@ class PBK_Archive_Writer {
 		self::check( $this->password, $this->compression );
 		$this->handle = @fopen( $file, 'cb' );
 		if ( ! $this->handle ) {
-			throw new PBK_Exception( 'Could not create the backup file.' );
+			throw new PBK_Exception( __( 'Could not create the backup file.', 'pro-backups' ) );
 		}
 	}
 
 	public static function check( $password, $compression ) {
 		if ( $compression === 'bzip2' && ! function_exists( 'bzcompress' ) ) {
-			throw new PBK_Exception( 'bzip2 compression needs the PHP bz2 extension.' );
+			throw new PBK_Exception( __( 'bzip2 compression needs the PHP bz2 extension.', 'pro-backups' ) );
 		}
 		if ( $compression === 'gzip' && ! function_exists( 'gzcompress' ) ) {
-			throw new PBK_Exception( 'gzip compression needs the PHP zlib extension.' );
+			throw new PBK_Exception( __( 'gzip compression needs the PHP zlib extension.', 'pro-backups' ) );
 		}
 		if ( $password && ! function_exists( 'openssl_encrypt' ) ) {
-			throw new PBK_Exception( 'Encryption needs the PHP openssl extension.' );
+			throw new PBK_Exception( __( 'Encryption needs the PHP openssl extension.', 'pro-backups' ) );
 		}
 	}
 
@@ -492,7 +492,7 @@ class PBK_Archive_Writer {
 
 	private function write( $data ) {
 		if ( fwrite( $this->handle, $data ) !== strlen( $data ) ) {
-			throw new PBK_Exception( 'Out of disk space while writing the backup.' );
+			throw new PBK_Exception( __( 'Out of disk space while writing the backup.', 'pro-backups' ) );
 		}
 	}
 
@@ -504,7 +504,7 @@ class PBK_Archive_Writer {
 		while ( $state['pos'] < $length ) {
 			$data = fread( $fh, (int) min( 8388608, $length - $state['pos'] ) );
 			if ( $data === false || $data === '' ) {
-				throw new PBK_Exception( 'Could not read the backup file.' );
+				throw new PBK_Exception( __( 'Could not read the backup file.', 'pro-backups' ) );
 			}
 			$state['crc'] = $state['pos'] === 0 ? hash( 'crc32b', $data ) : PBK_Crc::combine( $state['crc'], hash( 'crc32b', $data ), strlen( $data ) );
 			$state['pos'] += strlen( $data );

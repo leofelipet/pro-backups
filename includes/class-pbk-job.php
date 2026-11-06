@@ -35,7 +35,7 @@ class PBK_Job {
 			'state'    => $state,
 		);
 		if ( ! wp_mkdir_p( $job->dir() ) ) {
-			throw new PBK_Exception( 'Could not create the job folder.' );
+			throw new PBK_Exception( __( 'Could not create the job folder.', 'pro-backups' ) );
 		}
 		$job->save();
 		return $job;
@@ -79,7 +79,7 @@ class PBK_Job {
 		$this->data['updated'] = time();
 		$tmp = $this->dir() . '/job.php.tmp';
 		if ( file_put_contents( $tmp, self::GUARD . wp_json_encode( $this->data ) ) === false || ! rename( $tmp, $this->dir() . '/job.php' ) ) {
-			throw new PBK_Exception( 'Could not save job state (disk full?).' );
+			throw new PBK_Exception( __( 'Could not save job state (disk full?).', 'pro-backups' ) );
 		}
 	}
 
@@ -120,7 +120,7 @@ class PBK_Job {
 	public function fail( $message ) {
 		$this->data['status']  = 'error';
 		$this->data['message'] = $message;
-		$this->log( 'ERROR: ' . $message );
+		$this->log( sprintf( /* translators: %s: error message */ __( 'ERROR: %s', 'pro-backups' ), $message ) );
 	}
 
 	public function is_active() {
@@ -172,7 +172,7 @@ class PBK_Job {
 			try {
 				$handler::on_error( $this );
 			} catch ( Throwable $ignored ) {
-				$this->log( 'Cleanup failed: ' . $ignored->getMessage() );
+				$this->log( sprintf( /* translators: %s: error message */ __( 'Cleanup failed: %s', 'pro-backups' ), $ignored->getMessage() ) );
 			}
 			$this->save();
 		}

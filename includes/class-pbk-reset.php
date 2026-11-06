@@ -51,7 +51,7 @@ class PBK_Reset {
 		$backup = $job->data['result']['file'];
 		foreach ( $job->data['reset'] as $what ) {
 			call_user_func( array( __CLASS__, 'reset_' . $what ), $job );
-			$job->log( 'Reset: ' . $what );
+			$job->log( sprintf( /* translators: %s: what is being reset */ __( 'Reset: %s', 'pro-backups' ), $what ) );
 		}
 		if ( in_array( 'database', $job->data['reset'], true ) ) {
 			$job->data['result']['login_url'] = wp_login_url();
@@ -95,7 +95,7 @@ class PBK_Reset {
 		global $wpdb;
 		$user = get_userdata( $job->data['user_id'] ?: 1 );
 		if ( ! $user ) {
-			throw new PBK_Exception( 'Could not find the current admin user.' );
+			throw new PBK_Exception( __( 'Could not find the current admin user.', 'pro-backups' ) );
 		}
 		$keep = array(
 			'blogname'   => get_option( 'blogname' ),

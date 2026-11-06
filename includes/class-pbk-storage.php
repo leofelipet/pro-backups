@@ -15,7 +15,7 @@ class PBK_Storage {
 		$dir = defined( 'PBK_STORAGE_DIR' ) ? PBK_STORAGE_DIR : WP_CONTENT_DIR . '/pro-backups';
 		if ( ! is_dir( $dir ) ) {
 			if ( ! wp_mkdir_p( $dir ) ) {
-				throw new PBK_Exception( 'Could not create the backups folder: ' . $dir );
+				throw new PBK_Exception( sprintf( /* translators: %s: folder path */ __( 'Could not create the backups folder: %s', 'pro-backups' ), $dir ) );
 			}
 		}
 		self::protect( $dir );
@@ -74,20 +74,20 @@ class PBK_Storage {
 	public static function find( $name ) {
 		$name = (string) $name;
 		if ( $name !== basename( $name ) || ! preg_match( '/^[^\/\\\\]+\.wpress$/i', $name ) ) {
-			throw new PBK_Exception( 'Invalid backup name.' );
+			throw new PBK_Exception( __( 'Invalid backup name.', 'pro-backups' ) );
 		}
 		foreach ( self::dirs() as $dir ) {
 			if ( is_file( "$dir/$name" ) ) {
 				return "$dir/$name";
 			}
 		}
-		throw new PBK_Exception( 'Backup not found: ' . $name );
+		throw new PBK_Exception( sprintf( /* translators: %s: file name */ __( 'Backup not found: %s', 'pro-backups' ), $name ) );
 	}
 
 	public static function sanitize_name( $name ) {
 		$name = sanitize_file_name( basename( (string) $name ) );
 		if ( ! preg_match( '/\.wpress$/i', $name ) ) {
-			throw new PBK_Exception( 'Only .wpress files are accepted.' );
+			throw new PBK_Exception( __( 'Only .wpress files are accepted.', 'pro-backups' ) );
 		}
 		return $name;
 	}

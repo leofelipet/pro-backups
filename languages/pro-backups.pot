@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-05T19:41:19+00:00\n"
+"POT-Creation-Date: 2026-11-06T12:37:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pro-backups\n"
@@ -271,6 +271,136 @@ msgstr ""
 msgid "Log"
 msgstr ""
 
+#: includes/class-pbk-archive.php:55
+msgid "Could not encrypt data."
+msgstr ""
+
+#: includes/class-pbk-archive.php:63
+msgid "Could not decrypt data. Wrong password or corrupted backup."
+msgstr ""
+
+#. translators: %s: path inside the backup
+#: includes/class-pbk-archive.php:93
+#: includes/class-pbk-archive.php:98
+#: includes/class-pbk-archive.php:105
+#, php-format
+msgid "Unsafe path in archive: %s"
+msgstr ""
+
+#: includes/class-pbk-archive.php:117
+msgid "Could not decompress data. The backup is corrupted."
+msgstr ""
+
+#: includes/class-pbk-archive.php:124
+msgid "64-bit PHP is required."
+msgstr ""
+
+#: includes/class-pbk-archive.php:127
+msgid "This backup is gzip-compressed but the PHP zlib extension is missing."
+msgstr ""
+
+#: includes/class-pbk-archive.php:130
+msgid "This backup is bzip2-compressed but the PHP bz2 extension is missing."
+msgstr ""
+
+#: includes/class-pbk-archive.php:133
+#: includes/class-pbk-importer.php:111
+msgid "This backup is encrypted but the PHP openssl extension is missing."
+msgstr ""
+
+#. translators: %s: file name
+#: includes/class-pbk-archive.php:154
+#, php-format
+msgid "Could not open backup file: %s"
+msgstr ""
+
+#: includes/class-pbk-archive.php:186
+msgid "Could not seek in backup file."
+msgstr ""
+
+#: includes/class-pbk-archive.php:190
+#: includes/class-pbk-archive.php:331
+msgid "Unexpected end of backup file. The upload may be incomplete."
+msgstr ""
+
+#. translators: %s: byte offset
+#: includes/class-pbk-archive.php:200
+#, php-format
+msgid "Invalid file header in backup at offset %s."
+msgstr ""
+
+#. translators: %s: folder path
+#: includes/class-pbk-archive.php:257
+#, php-format
+msgid "Could not create directory: %s"
+msgstr ""
+
+#. translators: %s: file path
+#: includes/class-pbk-archive.php:261
+#, php-format
+msgid "Could not write file: %s"
+msgstr ""
+
+#. translators: %s: file path
+#: includes/class-pbk-archive.php:272
+#, php-format
+msgid "Out of disk space while writing: %s"
+msgstr ""
+
+#. translators: %s: file name
+#: includes/class-pbk-archive.php:315
+#, php-format
+msgid "Corrupted chunk in backup file: %s"
+msgstr ""
+
+#: includes/class-pbk-archive.php:344
+msgid "This is not a valid .wpress file or the upload is incomplete."
+msgstr ""
+
+#: includes/class-pbk-archive.php:361
+msgid "Backup checksum mismatch. The file is corrupted or the upload is incomplete."
+msgstr ""
+
+#: includes/class-pbk-archive.php:383
+msgid "Could not create the backup file."
+msgstr ""
+
+#: includes/class-pbk-archive.php:389
+msgid "bzip2 compression needs the PHP bz2 extension."
+msgstr ""
+
+#: includes/class-pbk-archive.php:392
+msgid "gzip compression needs the PHP zlib extension."
+msgstr ""
+
+#: includes/class-pbk-archive.php:395
+msgid "Encryption needs the PHP openssl extension."
+msgstr ""
+
+#: includes/class-pbk-archive.php:495
+msgid "Out of disk space while writing the backup."
+msgstr ""
+
+#: includes/class-pbk-archive.php:507
+msgid "Could not read the backup file."
+msgstr ""
+
+#. translators: %s: file name
+#: includes/class-pbk-cli.php:103
+#, php-format
+msgid "Deleted %s"
+msgstr ""
+
+#. translators: %s: file name
+#: includes/class-pbk-cli.php:103
+#, php-format
+msgid "Could not delete %s"
+msgstr ""
+
+#: includes/class-pbk-cli.php:124
+msgid "Encrypted backup: pass --password=<password> (or it is wrong)."
+msgstr ""
+
 #: includes/class-pbk-exporter.php:30
 msgid "Unknown compression type."
 msgstr ""
@@ -279,8 +409,24 @@ msgstr ""
 msgid "Listing files..."
 msgstr ""
 
+#. translators: 1: number of files, 2: total size
+#: includes/class-pbk-exporter.php:128
+#, php-format
+msgid "%1$d files (%2$s) to back up."
+msgstr ""
+
 #: includes/class-pbk-exporter.php:224
 msgid "Backing up files..."
+msgstr ""
+
+#: includes/class-pbk-exporter.php:226
+msgid "Files done."
+msgstr ""
+
+#. translators: %d: number of tables
+#: includes/class-pbk-exporter.php:236
+#, php-format
+msgid "Exporting %d tables."
 msgstr ""
 
 #: includes/class-pbk-exporter.php:239
@@ -329,12 +475,14 @@ msgstr ""
 msgid "This is a multisite network backup. Network backups are not supported yet."
 msgstr ""
 
-#: includes/class-pbk-importer.php:97
-msgid "Verifying backup integrity..."
+#. translators: 1: site URL, 2: WordPress version, 3: file size
+#: includes/class-pbk-importer.php:89
+#, php-format
+msgid "Backup of %1$s (WordPress %2$s), %3$s."
 msgstr ""
 
-#: includes/class-pbk-importer.php:111
-msgid "This backup is encrypted but the PHP openssl extension is missing."
+#: includes/class-pbk-importer.php:97
+msgid "Verifying backup integrity..."
 msgstr ""
 
 #: includes/class-pbk-importer.php:118
@@ -363,12 +511,34 @@ msgstr ""
 msgid "Warning: only %s of free disk space; the restore may fail."
 msgstr ""
 
+#: includes/class-pbk-importer.php:147
+msgid "Confirmed. Restoring files."
+msgstr ""
+
 #: includes/class-pbk-importer.php:164
 msgid "Restoring files..."
 msgstr ""
 
+#. translators: %d: number of rules
+#: includes/class-pbk-importer.php:210
+#, php-format
+msgid "Restoring database (%d replacement rules)."
+msgstr ""
+
 #: includes/class-pbk-importer.php:216
 msgid "Restoring database..."
+msgstr ""
+
+#. translators: 1: number of queries, 2: number of failed queries
+#: includes/class-pbk-importer.php:218
+#, php-format
+msgid "Database restored: %1$d queries, %2$d failed."
+msgstr ""
+
+#. translators: %s: database error
+#: includes/class-pbk-importer.php:220
+#, php-format
+msgid "SQL error: %s"
 msgstr ""
 
 #: includes/class-pbk-importer.php:279
@@ -383,19 +553,39 @@ msgid_plural "%d database queries failed (see the log)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-pbk-plugin.php:58
+#: includes/class-pbk-job.php:38
+msgid "Could not create the job folder."
+msgstr ""
+
+#: includes/class-pbk-job.php:82
+msgid "Could not save job state (disk full?)."
+msgstr ""
+
+#. translators: %s: error message
+#: includes/class-pbk-job.php:123
+#, php-format
+msgid "ERROR: %s"
+msgstr ""
+
+#. translators: %s: error message
+#: includes/class-pbk-job.php:175
+#, php-format
+msgid "Cleanup failed: %s"
+msgstr ""
+
+#: includes/class-pbk-plugin.php:62
 msgid "Permission denied. Reload the page and try again."
 msgstr ""
 
-#: includes/class-pbk-plugin.php:67
+#: includes/class-pbk-plugin.php:71
 msgid "Job not found or expired."
 msgstr ""
 
-#: includes/class-pbk-plugin.php:122
+#: includes/class-pbk-plugin.php:126
 msgid "The restore is already changing the site and cannot be cancelled safely."
 msgstr ""
 
-#: includes/class-pbk-plugin.php:125
+#: includes/class-pbk-plugin.php:129
 msgid "Cancelled."
 msgstr ""
 
@@ -419,10 +609,20 @@ msgstr ""
 msgid "Choose what to reset."
 msgstr ""
 
+#. translators: %s: what is being reset
+#: includes/class-pbk-reset.php:54
+#, php-format
+msgid "Reset: %s"
+msgstr ""
+
 #. translators: %s: backup file name
 #: includes/class-pbk-reset.php:60
 #, php-format
 msgid "Reset complete. The site was backed up first to %s (restore it from the Backups tab to undo)."
+msgstr ""
+
+#: includes/class-pbk-reset.php:98
+msgid "Could not find the current admin user."
 msgstr ""
 
 #: includes/class-pbk-reset.php:146
@@ -475,6 +675,12 @@ msgstr ""
 
 #: includes/class-pbk-schedules.php:114
 msgid "Schedule not found."
+msgstr ""
+
+#. translators: %s: list of file names
+#: includes/class-pbk-schedules.php:186
+#, php-format
+msgid "Retention removed: %s"
 msgstr ""
 
 #: includes/class-pbk-schedules.php:273
@@ -572,6 +778,44 @@ msgstr ""
 
 #: includes/class-pbk-schedules.php:342
 msgid "Total size limit"
+msgstr ""
+
+#: includes/class-pbk-sql-exporter.php:69
+msgid "Could not write the database dump."
+msgstr ""
+
+#. translators: 1: table name, 2: database error
+#: includes/class-pbk-sql-exporter.php:133
+#, php-format
+msgid "Database error while exporting %1$s: %2$s"
+msgstr ""
+
+#: includes/class-pbk-sql-exporter.php:180
+msgid "Out of disk space while exporting the database."
+msgstr ""
+
+#: includes/class-pbk-sql-importer.php:40
+msgid "Could not open the database file."
+msgstr ""
+
+#. translators: %s: folder path
+#: includes/class-pbk-storage.php:18
+#, php-format
+msgid "Could not create the backups folder: %s"
+msgstr ""
+
+#: includes/class-pbk-storage.php:77
+msgid "Invalid backup name."
+msgstr ""
+
+#. translators: %s: file name
+#: includes/class-pbk-storage.php:84
+#, php-format
+msgid "Backup not found: %s"
+msgstr ""
+
+#: includes/class-pbk-storage.php:90
+msgid "Only .wpress files are accepted."
 msgstr ""
 
 #: includes/class-pbk-upload.php:34

@@ -35,6 +35,17 @@ tests/matrix.sh php74 php84 mysql84          # suíte de integração em outras 
 bin/build-zip.sh                             # dist/pro-backups-<versão>.zip
 ```
 
+### Traduções
+
+Interface em inglês com tradução **pt_BR** incluída em `languages/`. Depois de mudar textos, atualize (WP-CLI):
+
+```bash
+wp i18n make-pot . languages/pro-backups.pot --exclude=tests,vendor,docs,dist,bin
+msgmerge -U --no-wrap languages/pro-backups-pt_BR.po languages/pro-backups.pot   # traduza as entradas novas/fuzzy
+msgfmt -o languages/pro-backups-pt_BR.mo languages/pro-backups-pt_BR.po
+wp i18n make-php languages
+```
+
 ## Licença
 
 GPL-3.0-or-later. Veja [LICENSE](LICENSE).

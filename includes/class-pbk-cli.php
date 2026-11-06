@@ -100,7 +100,7 @@ class PBK_CLI {
 		} catch ( PBK_Exception $e ) {
 			WP_CLI::error( $e->getMessage() );
 		}
-		unlink( $path ) ? WP_CLI::success( 'Deleted ' . $args[0] ) : WP_CLI::error( 'Could not delete ' . $args[0] );
+		unlink( $path ) ? WP_CLI::success( sprintf( /* translators: %s: file name */ __( 'Deleted %s', 'pro-backups' ), $args[0] ) ) : WP_CLI::error( sprintf( /* translators: %s: file name */ __( 'Could not delete %s', 'pro-backups' ), $args[0] ) );
 	}
 
 	private function drive( PBK_Job $job, $yes ) {
@@ -121,7 +121,7 @@ class PBK_CLI {
 						continue;
 					}
 					$job->delete();
-					WP_CLI::error( 'Encrypted backup: pass --password=<password> (or it is wrong).' );
+					WP_CLI::error( __( 'Encrypted backup: pass --password=<password> (or it is wrong).', 'pro-backups' ) );
 				}
 				if ( ! $yes ) {
 					WP_CLI::confirm( $status['message'] );

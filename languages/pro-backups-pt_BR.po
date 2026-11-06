@@ -1,0 +1,843 @@
+# Copyright (C) 2026 Leonardo Felipe
+# This file is distributed under the GPL-3.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Pro Backups 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/pro-backups\n"
+"Last-Translator: Leonardo Felipe\n"
+"Language-Team: Português do Brasil\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-06T12:37:31+00:00\n"
+"PO-Revision-Date: 2026-11-06 00:00+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: pro-backups\n"
+
+#. Plugin Name of the plugin
+#: pro-backups.php includes/class-pbk-admin.php:97
+#: includes/class-pbk-admin.php:160
+msgid "Pro Backups"
+msgstr "Pro Backups"
+
+#. Plugin URI of the plugin
+#: pro-backups.php
+msgid "https://github.com/leofelipet/pro-backups"
+msgstr "https://github.com/leofelipet/pro-backups"
+
+#. Description of the plugin
+#: pro-backups.php
+msgid "Free, unlimited backup and restore of .wpress archives. No upload size limit, no paywall."
+msgstr "Backup e restauração de arquivos .wpress, gratuitos e sem limites. Sem limite de tamanho de upload, sem recursos pagos."
+
+#. Author of the plugin
+#: pro-backups.php
+msgid "Leonardo Felipe"
+msgstr "Leonardo Felipe"
+
+#: includes/class-pbk-admin.php:27 includes/class-pbk-schedules.php:202
+msgid "Permission denied."
+msgstr "Permissão negada."
+
+#: includes/class-pbk-admin.php:73
+msgid "Backup deleted."
+msgstr "Backup excluído."
+
+#: includes/class-pbk-admin.php:74
+msgid "Could not delete the backup (check file permissions)."
+msgstr "Não foi possível excluir o backup (verifique as permissões do arquivo)."
+
+#: includes/class-pbk-admin.php:75
+msgid "Settings saved."
+msgstr "Configurações salvas."
+
+#: includes/class-pbk-admin.php:87 includes/class-pbk-admin.php:101
+msgid "Backups"
+msgstr "Backups"
+
+#: includes/class-pbk-admin.php:88 includes/class-pbk-admin.php:242
+msgid "Create backup"
+msgstr "Criar backup"
+
+#: includes/class-pbk-admin.php:89
+msgid "Schedules"
+msgstr "Agendamentos"
+
+#: includes/class-pbk-admin.php:90 includes/class-pbk-reset.php:160
+msgid "Reset"
+msgstr "Redefinir"
+
+#: includes/class-pbk-admin.php:91
+msgid "Settings"
+msgstr "Configurações"
+
+#. translators: %s: file name
+#: includes/class-pbk-admin.php:130
+#, php-format
+msgid "Uploading %s ..."
+msgstr "Enviando %s ..."
+
+#. translators: %s: error message
+#: includes/class-pbk-admin.php:132
+#, php-format
+msgid "Upload failed: %s"
+msgstr "Falha no envio: %s"
+
+#. translators: %d: attempt number
+#: includes/class-pbk-admin.php:134
+#, php-format
+msgid "Connection problem, retrying (%d)..."
+msgstr "Problema de conexão, tentando novamente (%d)..."
+
+#: includes/class-pbk-admin.php:135
+msgid "Only .wpress files can be restored."
+msgstr "Somente arquivos .wpress podem ser restaurados."
+
+#: includes/class-pbk-admin.php:136
+msgid "Not enough disk space for this file."
+msgstr "Não há espaço em disco suficiente para este arquivo."
+
+#: includes/class-pbk-admin.php:137 includes/class-pbk-admin.php:268
+msgid "Restore"
+msgstr "Restaurar"
+
+#: includes/class-pbk-admin.php:138
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: includes/class-pbk-admin.php:139
+msgid "Close"
+msgstr "Fechar"
+
+#: includes/class-pbk-admin.php:140
+msgid "Unlock"
+msgstr "Desbloquear"
+
+#: includes/class-pbk-admin.php:141
+msgid "Backup password"
+msgstr "Senha do backup"
+
+#: includes/class-pbk-admin.php:142
+msgid "Log in"
+msgstr "Fazer login"
+
+#: includes/class-pbk-admin.php:143
+msgid "A backup job is running. Leaving this page pauses it."
+msgstr "Uma tarefa de backup está em andamento. Sair desta página a pausa."
+
+#: includes/class-pbk-admin.php:144
+msgid "Delete this backup permanently?"
+msgstr "Excluir este backup permanentemente?"
+
+#: includes/class-pbk-admin.php:145
+msgid "Error"
+msgstr "Erro"
+
+#: includes/class-pbk-admin.php:146
+msgid "Done"
+msgstr "Concluído"
+
+#: includes/class-pbk-admin.php:147 includes/class-pbk-admin.php:269
+msgid "Download"
+msgstr "Baixar"
+
+#: includes/class-pbk-admin.php:148
+msgid "Creating backup"
+msgstr "Criando backup"
+
+#: includes/class-pbk-admin.php:149
+msgid "Backing up, then resetting"
+msgstr "Fazendo backup e depois redefinindo"
+
+#: includes/class-pbk-admin.php:174
+msgid "Drop a .wpress file here to upload and restore it"
+msgstr "Solte um arquivo .wpress aqui para enviá-lo e restaurá-lo"
+
+#: includes/class-pbk-admin.php:175
+msgid "No size limit: the file is sent in small parts and the upload resumes after connection drops."
+msgstr "Sem limite de tamanho: o arquivo é enviado em partes pequenas e o envio continua depois de quedas de conexão."
+
+#: includes/class-pbk-admin.php:176
+msgid "Choose file"
+msgstr "Escolher arquivo"
+
+#. translators: %s: backups folder path
+#: includes/class-pbk-admin.php:183
+#, php-format
+msgid "Very large file or slow connection? Upload it by FTP/SFTP to %s and it appears in the list below."
+msgstr "Arquivo muito grande ou conexão lenta? Envie-o por FTP/SFTP para %s e ele aparecerá na lista abaixo."
+
+#: includes/class-pbk-admin.php:195
+msgid "Media library (uploads)"
+msgstr "Biblioteca de mídia (uploads)"
+
+#: includes/class-pbk-admin.php:196
+msgid "Plugins"
+msgstr "Plugins"
+
+#: includes/class-pbk-admin.php:197
+msgid "Inactive plugins"
+msgstr "Plugins inativos"
+
+#: includes/class-pbk-admin.php:198
+msgid "Themes"
+msgstr "Temas"
+
+#: includes/class-pbk-admin.php:199
+msgid "Inactive themes"
+msgstr "Temas inativos"
+
+#: includes/class-pbk-admin.php:200
+msgid "Cache folders"
+msgstr "Pastas de cache"
+
+#: includes/class-pbk-admin.php:201
+msgid "Database"
+msgstr "Banco de dados"
+
+#: includes/class-pbk-admin.php:202
+msgid "Spam comments"
+msgstr "Comentários de spam"
+
+#: includes/class-pbk-admin.php:203
+msgid "Post revisions"
+msgstr "Revisões de posts"
+
+#: includes/class-pbk-admin.php:208
+msgid "Do not back up"
+msgstr "Não incluir no backup"
+
+#: includes/class-pbk-admin.php:213
+msgid "Exclude files / folders"
+msgstr "Excluir arquivos / pastas"
+
+#: includes/class-pbk-admin.php:215
+msgid "One path per line, relative to wp-content."
+msgstr "Um caminho por linha, relativo a wp-content."
+
+#: includes/class-pbk-admin.php:217
+msgid "Exclude tables"
+msgstr "Excluir tabelas"
+
+#: includes/class-pbk-admin.php:224
+msgid "Compression"
+msgstr "Compressão"
+
+#: includes/class-pbk-admin.php:226
+msgid "None (fastest)"
+msgstr "Nenhuma (mais rápido)"
+
+#: includes/class-pbk-admin.php:231
+msgid "Encrypt with password"
+msgstr "Criptografar com senha"
+
+#: includes/class-pbk-admin.php:233
+msgid "Optional. AES-256. Without the password the backup cannot be restored."
+msgstr "Opcional. AES-256. Sem a senha, o backup não pode ser restaurado."
+
+#: includes/class-pbk-admin.php:248
+msgid "Backups on this server"
+msgstr "Backups neste servidor"
+
+#: includes/class-pbk-admin.php:250
+msgid "No backups yet."
+msgstr "Nenhum backup ainda."
+
+#: includes/class-pbk-admin.php:253
+msgid "File"
+msgstr "Arquivo"
+
+#: includes/class-pbk-admin.php:253
+msgid "Date"
+msgstr "Data"
+
+#: includes/class-pbk-admin.php:253
+msgid "Size"
+msgstr "Tamanho"
+
+#: includes/class-pbk-admin.php:270 includes/class-pbk-schedules.php:294
+msgid "Delete"
+msgstr "Excluir"
+
+#: includes/class-pbk-admin.php:282
+msgid "Log"
+msgstr "Registro"
+
+#: includes/class-pbk-archive.php:55
+msgid "Could not encrypt data."
+msgstr "Não foi possível criptografar os dados."
+
+#: includes/class-pbk-archive.php:63
+msgid "Could not decrypt data. Wrong password or corrupted backup."
+msgstr "Não foi possível descriptografar os dados. Senha incorreta ou backup corrompido."
+
+#. translators: %s: path inside the backup
+#: includes/class-pbk-archive.php:93 includes/class-pbk-archive.php:98
+#: includes/class-pbk-archive.php:105
+#, php-format
+msgid "Unsafe path in archive: %s"
+msgstr "Caminho inseguro no arquivo de backup: %s"
+
+#: includes/class-pbk-archive.php:117
+msgid "Could not decompress data. The backup is corrupted."
+msgstr "Não foi possível descompactar os dados. O backup está corrompido."
+
+#: includes/class-pbk-archive.php:124
+msgid "64-bit PHP is required."
+msgstr "É necessário PHP de 64 bits."
+
+#: includes/class-pbk-archive.php:127
+msgid "This backup is gzip-compressed but the PHP zlib extension is missing."
+msgstr "Este backup está compactado com gzip, mas a extensão zlib do PHP não está instalada."
+
+#: includes/class-pbk-archive.php:130
+msgid "This backup is bzip2-compressed but the PHP bz2 extension is missing."
+msgstr "Este backup está compactado com bzip2, mas a extensão bz2 do PHP não está instalada."
+
+#: includes/class-pbk-archive.php:133 includes/class-pbk-importer.php:111
+msgid "This backup is encrypted but the PHP openssl extension is missing."
+msgstr "Este backup está criptografado, mas a extensão openssl do PHP não está instalada."
+
+#. translators: %s: file name
+#: includes/class-pbk-archive.php:154
+#, php-format
+msgid "Could not open backup file: %s"
+msgstr "Não foi possível abrir o arquivo de backup: %s"
+
+#: includes/class-pbk-archive.php:186
+msgid "Could not seek in backup file."
+msgstr "Não foi possível posicionar a leitura no arquivo de backup."
+
+#: includes/class-pbk-archive.php:190 includes/class-pbk-archive.php:331
+msgid "Unexpected end of backup file. The upload may be incomplete."
+msgstr "Fim inesperado do arquivo de backup. O envio pode estar incompleto."
+
+#. translators: %s: byte offset
+#: includes/class-pbk-archive.php:200
+#, php-format
+msgid "Invalid file header in backup at offset %s."
+msgstr "Cabeçalho de arquivo inválido no backup na posição %s."
+
+#. translators: %s: folder path
+#: includes/class-pbk-archive.php:257
+#, php-format
+msgid "Could not create directory: %s"
+msgstr "Não foi possível criar a pasta: %s"
+
+#. translators: %s: file path
+#: includes/class-pbk-archive.php:261
+#, php-format
+msgid "Could not write file: %s"
+msgstr "Não foi possível gravar o arquivo: %s"
+
+#. translators: %s: file path
+#: includes/class-pbk-archive.php:272
+#, php-format
+msgid "Out of disk space while writing: %s"
+msgstr "Sem espaço em disco ao gravar: %s"
+
+#. translators: %s: file name
+#: includes/class-pbk-archive.php:315
+#, php-format
+msgid "Corrupted chunk in backup file: %s"
+msgstr "Bloco corrompido no arquivo de backup: %s"
+
+#: includes/class-pbk-archive.php:344
+msgid "This is not a valid .wpress file or the upload is incomplete."
+msgstr "Este não é um arquivo .wpress válido ou o envio está incompleto."
+
+#: includes/class-pbk-archive.php:361
+msgid "Backup checksum mismatch. The file is corrupted or the upload is incomplete."
+msgstr "A soma de verificação do backup não confere. O arquivo está corrompido ou o envio está incompleto."
+
+#: includes/class-pbk-archive.php:383
+msgid "Could not create the backup file."
+msgstr "Não foi possível criar o arquivo de backup."
+
+#: includes/class-pbk-archive.php:389
+msgid "bzip2 compression needs the PHP bz2 extension."
+msgstr "A compressão bzip2 precisa da extensão bz2 do PHP."
+
+#: includes/class-pbk-archive.php:392
+msgid "gzip compression needs the PHP zlib extension."
+msgstr "A compressão gzip precisa da extensão zlib do PHP."
+
+#: includes/class-pbk-archive.php:395
+msgid "Encryption needs the PHP openssl extension."
+msgstr "A criptografia precisa da extensão openssl do PHP."
+
+#: includes/class-pbk-archive.php:495
+msgid "Out of disk space while writing the backup."
+msgstr "Sem espaço em disco ao gravar o backup."
+
+#: includes/class-pbk-archive.php:507
+msgid "Could not read the backup file."
+msgstr "Não foi possível ler o arquivo de backup."
+
+#. translators: %s: file name
+#: includes/class-pbk-cli.php:103
+#, php-format
+msgid "Deleted %s"
+msgstr "%s excluído"
+
+#. translators: %s: file name
+#: includes/class-pbk-cli.php:103
+#, php-format
+msgid "Could not delete %s"
+msgstr "Não foi possível excluir %s"
+
+#: includes/class-pbk-cli.php:124
+msgid "Encrypted backup: pass --password=<password> (or it is wrong)."
+msgstr "Backup criptografado: informe --password=<senha> (ou a senha está incorreta)."
+
+#: includes/class-pbk-exporter.php:30
+msgid "Unknown compression type."
+msgstr "Tipo de compressão desconhecido."
+
+#: includes/class-pbk-exporter.php:84
+msgid "Listing files..."
+msgstr "Listando arquivos..."
+
+#. translators: 1: number of files, 2: total size
+#: includes/class-pbk-exporter.php:128
+#, php-format
+msgid "%1$d files (%2$s) to back up."
+msgstr "%1$d arquivos (%2$s) para o backup."
+
+#: includes/class-pbk-exporter.php:224
+msgid "Backing up files..."
+msgstr "Fazendo backup dos arquivos..."
+
+#: includes/class-pbk-exporter.php:226
+msgid "Files done."
+msgstr "Arquivos concluídos."
+
+#. translators: %d: number of tables
+#: includes/class-pbk-exporter.php:236
+#, php-format
+msgid "Exporting %d tables."
+msgstr "Exportando %d tabelas."
+
+#: includes/class-pbk-exporter.php:239
+msgid "Backing up database..."
+msgstr "Fazendo backup do banco de dados..."
+
+#: includes/class-pbk-exporter.php:259
+msgid "Adding database to the backup..."
+msgstr "Adicionando o banco de dados ao backup..."
+
+#: includes/class-pbk-exporter.php:329
+msgid "Finishing backup..."
+msgstr "Finalizando o backup..."
+
+#: includes/class-pbk-exporter.php:341
+msgid "Could not move the backup into the backups folder."
+msgstr "Não foi possível mover o backup para a pasta de backups."
+
+#. translators: 1: file name, 2: size
+#: includes/class-pbk-exporter.php:353
+#, php-format
+msgid "Backup created: %1$s (%2$s)."
+msgstr "Backup criado: %1$s (%2$s)."
+
+#: includes/class-pbk-importer.php:67
+msgid "Checking backup file..."
+msgstr "Verificando o arquivo de backup..."
+
+#: includes/class-pbk-importer.php:69
+msgid "Restoring into a multisite network is not supported yet."
+msgstr "Ainda não é possível restaurar em uma rede multisite."
+
+#: includes/class-pbk-importer.php:72
+msgid "Backup file not found."
+msgstr "Arquivo de backup não encontrado."
+
+#: includes/class-pbk-importer.php:76
+msgid "This is not a valid .wpress file, or the upload is incomplete."
+msgstr "Este não é um arquivo .wpress válido, ou o envio está incompleto."
+
+#: includes/class-pbk-importer.php:80
+msgid "package.json is missing: this file was not created by Pro Backups or All-in-One WP Migration."
+msgstr "package.json ausente: este arquivo não foi criado pelo Pro Backups nem pelo All-in-One WP Migration."
+
+#: includes/class-pbk-importer.php:83
+msgid "This is a multisite network backup. Network backups are not supported yet."
+msgstr "Este é um backup de rede multisite. Backups de rede ainda não são suportados."
+
+#. translators: 1: site URL, 2: WordPress version, 3: file size
+#: includes/class-pbk-importer.php:89
+#, php-format
+msgid "Backup of %1$s (WordPress %2$s), %3$s."
+msgstr "Backup de %1$s (WordPress %2$s), %3$s."
+
+#: includes/class-pbk-importer.php:97
+msgid "Verifying backup integrity..."
+msgstr "Verificando a integridade do backup..."
+
+#: includes/class-pbk-importer.php:118
+msgid "This backup is encrypted. Enter its password."
+msgstr "Este backup está criptografado. Digite a senha."
+
+#: includes/class-pbk-importer.php:118
+msgid "Wrong password. Try again."
+msgstr "Senha incorreta. Tente novamente."
+
+#. translators: 1: source site URL
+#: includes/class-pbk-importer.php:127
+#, php-format
+msgid "This will replace this site's database, media, plugins and themes with the backup of %1$s. Make sure you have a backup of the current site. Continue?"
+msgstr "Isto vai substituir o banco de dados, as mídias, os plugins e os temas deste site pelo backup de %1$s. Confirme que você tem um backup do site atual. Continuar?"
+
+#. translators: 1: backup WordPress version, 2: this site's version
+#: includes/class-pbk-importer.php:133
+#, php-format
+msgid "Warning: the backup comes from WordPress %1$s but this site runs %2$s. Update WordPress first, or newer themes/plugins from the backup may not work."
+msgstr "Atenção: o backup vem do WordPress %1$s, mas este site usa o %2$s. Atualize o WordPress primeiro, ou temas/plugins mais novos do backup podem não funcionar."
+
+#. translators: %s: free disk space
+#: includes/class-pbk-importer.php:137
+#, php-format
+msgid "Warning: only %s of free disk space; the restore may fail."
+msgstr "Atenção: apenas %s de espaço livre em disco; a restauração pode falhar."
+
+#: includes/class-pbk-importer.php:147
+msgid "Confirmed. Restoring files."
+msgstr "Confirmado. Restaurando os arquivos."
+
+#: includes/class-pbk-importer.php:164
+msgid "Restoring files..."
+msgstr "Restaurando os arquivos..."
+
+#. translators: %d: number of rules
+#: includes/class-pbk-importer.php:210
+#, php-format
+msgid "Restoring database (%d replacement rules)."
+msgstr "Restaurando o banco de dados (%d regras de substituição)."
+
+#: includes/class-pbk-importer.php:216
+msgid "Restoring database..."
+msgstr "Restaurando o banco de dados..."
+
+#. translators: 1: number of queries, 2: number of failed queries
+#: includes/class-pbk-importer.php:218
+#, php-format
+msgid "Database restored: %1$d queries, %2$d failed."
+msgstr "Banco de dados restaurado: %1$d consultas, %2$d com falha."
+
+#. translators: %s: database error
+#: includes/class-pbk-importer.php:220
+#, php-format
+msgid "SQL error: %s"
+msgstr "Erro de SQL: %s"
+
+#: includes/class-pbk-importer.php:279
+msgid "Restore complete. Log in again with a user from the backup."
+msgstr "Restauração concluída. Faça login novamente com um usuário do backup."
+
+#. translators: %d: number of failed SQL queries
+#: includes/class-pbk-importer.php:282
+#, php-format
+msgid "%d database query failed (see the log)."
+msgid_plural "%d database queries failed (see the log)."
+msgstr[0] "%d consulta ao banco de dados falhou (veja o registro)."
+msgstr[1] "%d consultas ao banco de dados falharam (veja o registro)."
+
+#: includes/class-pbk-job.php:38
+msgid "Could not create the job folder."
+msgstr "Não foi possível criar a pasta da tarefa."
+
+#: includes/class-pbk-job.php:82
+msgid "Could not save job state (disk full?)."
+msgstr "Não foi possível salvar o estado da tarefa (disco cheio?)."
+
+#. translators: %s: error message
+#: includes/class-pbk-job.php:123
+#, php-format
+msgid "ERROR: %s"
+msgstr "ERRO: %s"
+
+#. translators: %s: error message
+#: includes/class-pbk-job.php:175
+#, php-format
+msgid "Cleanup failed: %s"
+msgstr "Falha na limpeza: %s"
+
+#: includes/class-pbk-plugin.php:62
+msgid "Permission denied. Reload the page and try again."
+msgstr "Permissão negada. Recarregue a página e tente novamente."
+
+#: includes/class-pbk-plugin.php:71
+msgid "Job not found or expired."
+msgstr "Tarefa não encontrada ou expirada."
+
+#: includes/class-pbk-plugin.php:126
+msgid "The restore is already changing the site and cannot be cancelled safely."
+msgstr "A restauração já está alterando o site e não pode ser cancelada com segurança."
+
+#: includes/class-pbk-plugin.php:129
+msgid "Cancelled."
+msgstr "Cancelado."
+
+#: includes/class-pbk-reset.php:21
+msgid "Delete all media files (uploads folder)"
+msgstr "Excluir todos os arquivos de mídia (pasta uploads)"
+
+#: includes/class-pbk-reset.php:22
+msgid "Deactivate and delete all plugins (except Pro Backups)"
+msgstr "Desativar e excluir todos os plugins (exceto o Pro Backups)"
+
+#: includes/class-pbk-reset.php:23
+msgid "Delete all themes except the active one"
+msgstr "Excluir todos os temas, exceto o ativo"
+
+#: includes/class-pbk-reset.php:24
+msgid "Reset the database to a fresh WordPress install (keeps your admin login, site URL and title)"
+msgstr "Redefinir o banco de dados para uma instalação nova do WordPress (mantém seu login de administrador, a URL e o título do site)"
+
+#: includes/class-pbk-reset.php:32
+msgid "Choose what to reset."
+msgstr "Escolha o que redefinir."
+
+#. translators: %s: what is being reset
+#: includes/class-pbk-reset.php:54
+#, php-format
+msgid "Reset: %s"
+msgstr "Redefinindo: %s"
+
+#. translators: %s: backup file name
+#: includes/class-pbk-reset.php:60
+#, php-format
+msgid "Reset complete. The site was backed up first to %s (restore it from the Backups tab to undo)."
+msgstr "Redefinição concluída. Antes, foi feito um backup do site em %s (restaure-o na aba Backups para desfazer)."
+
+#: includes/class-pbk-reset.php:98
+msgid "Could not find the current admin user."
+msgstr "Não foi possível encontrar o usuário administrador atual."
+
+#: includes/class-pbk-reset.php:146
+msgid "Type RESET to confirm."
+msgstr "Digite RESET para confirmar."
+
+#: includes/class-pbk-reset.php:157
+msgid "Reset tools delete data. A full backup of the site is always created first, so you can undo a reset by restoring it."
+msgstr "As ferramentas de redefinição excluem dados. Um backup completo do site é sempre criado antes, então você pode desfazer uma redefinição restaurando-o."
+
+#: includes/class-pbk-reset.php:165
+msgid "Type RESET to confirm"
+msgstr "Digite RESET para confirmar"
+
+#: includes/class-pbk-reset.php:167
+msgid "Back up and reset"
+msgstr "Fazer backup e redefinir"
+
+#: includes/class-pbk-schedules.php:32
+msgid "Once Weekly"
+msgstr "Uma vez por semana"
+
+#: includes/class-pbk-schedules.php:33
+msgid "Once Monthly"
+msgstr "Uma vez por mês"
+
+#: includes/class-pbk-schedules.php:39
+msgid "Every hour"
+msgstr "A cada hora"
+
+#: includes/class-pbk-schedules.php:40
+msgid "Twice a day"
+msgstr "Duas vezes por dia"
+
+#: includes/class-pbk-schedules.php:41
+msgid "Every day"
+msgstr "Todo dia"
+
+#: includes/class-pbk-schedules.php:42
+msgid "Every week"
+msgstr "Toda semana"
+
+#: includes/class-pbk-schedules.php:43
+msgid "Every month"
+msgstr "Todo mês"
+
+#: includes/class-pbk-schedules.php:65
+msgid "Backup"
+msgstr "Backup"
+
+#: includes/class-pbk-schedules.php:114
+msgid "Schedule not found."
+msgstr "Agendamento não encontrado."
+
+#. translators: %s: list of file names
+#: includes/class-pbk-schedules.php:186
+#, php-format
+msgid "Retention removed: %s"
+msgstr "Removidos pela retenção: %s"
+
+#: includes/class-pbk-schedules.php:273
+msgid "Add schedule"
+msgstr "Adicionar agendamento"
+
+#: includes/class-pbk-schedules.php:275
+msgid "No schedules yet."
+msgstr "Nenhum agendamento ainda."
+
+#: includes/class-pbk-schedules.php:277 includes/class-pbk-schedules.php:310
+msgid "Name"
+msgstr "Nome"
+
+#: includes/class-pbk-schedules.php:277
+msgid "When"
+msgstr "Quando"
+
+#: includes/class-pbk-schedules.php:277
+msgid "Next run"
+msgstr "Próxima execução"
+
+#: includes/class-pbk-schedules.php:277
+msgid "Last run"
+msgstr "Última execução"
+
+#: includes/class-pbk-schedules.php:284
+msgid "paused"
+msgstr "pausado"
+
+#: includes/class-pbk-schedules.php:288
+msgid "Run now"
+msgstr "Executar agora"
+
+#: includes/class-pbk-schedules.php:290
+msgid "Edit"
+msgstr "Editar"
+
+#: includes/class-pbk-schedules.php:299
+msgid "Schedules use WP-Cron: they run when the site gets visits. For exact timing, call wp-cron.php from a real server cron job."
+msgstr "Os agendamentos usam o WP-Cron: eles rodam quando o site recebe visitas. Para horários exatos, chame o wp-cron.php a partir de um cron real do servidor."
+
+#: includes/class-pbk-schedules.php:311
+msgid "Frequency"
+msgstr "Frequência"
+
+#: includes/class-pbk-schedules.php:317
+msgid "starting at"
+msgstr "a partir de"
+
+#: includes/class-pbk-schedules.php:319
+msgid "Active"
+msgstr "Ativo"
+
+#: includes/class-pbk-schedules.php:319
+msgid "Run this schedule"
+msgstr "Executar este agendamento"
+
+#: includes/class-pbk-schedules.php:323
+msgid "Remove the saved encryption password"
+msgstr "Remover a senha de criptografia salva"
+
+#: includes/class-pbk-schedules.php:325
+msgid "A scheduled encryption password is stored in the database so backups can run unattended. Leave it empty to keep the saved one."
+msgstr "A senha de criptografia de um agendamento fica salva no banco de dados para que os backups rodem sozinhos. Deixe em branco para manter a senha salva."
+
+#: includes/class-pbk-schedules.php:326
+msgid "Save schedule"
+msgstr "Salvar agendamento"
+
+#: includes/class-pbk-schedules.php:337
+msgid "Retention"
+msgstr "Retenção"
+
+#: includes/class-pbk-schedules.php:338
+msgid "After every backup, the oldest backups in the Pro Backups folder beyond these limits are deleted. 0 = no limit."
+msgstr "Depois de cada backup, os backups mais antigos na pasta do Pro Backups que ultrapassarem estes limites são excluídos. 0 = sem limite."
+
+#: includes/class-pbk-schedules.php:340
+msgid "Keep at most"
+msgstr "Manter no máximo"
+
+#: includes/class-pbk-schedules.php:340
+msgid "backups"
+msgstr "backups"
+
+#: includes/class-pbk-schedules.php:341
+msgid "Delete backups older than"
+msgstr "Excluir backups com mais de"
+
+#: includes/class-pbk-schedules.php:341
+msgid "days"
+msgstr "dias"
+
+#: includes/class-pbk-schedules.php:342
+msgid "Total size limit"
+msgstr "Limite de tamanho total"
+
+#: includes/class-pbk-sql-exporter.php:69
+msgid "Could not write the database dump."
+msgstr "Não foi possível gravar o dump do banco de dados."
+
+#. translators: 1: table name, 2: database error
+#: includes/class-pbk-sql-exporter.php:133
+#, php-format
+msgid "Database error while exporting %1$s: %2$s"
+msgstr "Erro de banco de dados ao exportar %1$s: %2$s"
+
+#: includes/class-pbk-sql-exporter.php:180
+msgid "Out of disk space while exporting the database."
+msgstr "Sem espaço em disco ao exportar o banco de dados."
+
+#: includes/class-pbk-sql-importer.php:40
+msgid "Could not open the database file."
+msgstr "Não foi possível abrir o arquivo do banco de dados."
+
+#. translators: %s: folder path
+#: includes/class-pbk-storage.php:18
+#, php-format
+msgid "Could not create the backups folder: %s"
+msgstr "Não foi possível criar a pasta de backups: %s"
+
+#: includes/class-pbk-storage.php:77
+msgid "Invalid backup name."
+msgstr "Nome de backup inválido."
+
+#. translators: %s: file name
+#: includes/class-pbk-storage.php:84
+#, php-format
+msgid "Backup not found: %s"
+msgstr "Backup não encontrado: %s"
+
+#: includes/class-pbk-storage.php:90
+msgid "Only .wpress files are accepted."
+msgstr "Somente arquivos .wpress são aceitos."
+
+#: includes/class-pbk-upload.php:34
+msgid "Upload not found or expired. Start again."
+msgstr "Envio não encontrado ou expirado. Comece novamente."
+
+#: includes/class-pbk-upload.php:43
+msgid "The file is empty or too small to be a backup."
+msgstr "O arquivo está vazio ou é pequeno demais para ser um backup."
+
+#. translators: 1: needed, 2: free
+#: includes/class-pbk-upload.php:48
+#, php-format
+msgid "Not enough disk space: the file needs %1$s, only %2$s free."
+msgstr "Espaço em disco insuficiente: o arquivo precisa de %1$s, há apenas %2$s livres."
+
+#: includes/class-pbk-upload.php:54 includes/class-pbk-upload.php:80
+msgid "Could not write to the backups folder."
+msgstr "Não foi possível gravar na pasta de backups."
+
+#: includes/class-pbk-upload.php:76
+msgid "Invalid upload chunk."
+msgstr "Parte de envio inválida."
+
+#: includes/class-pbk-upload.php:89
+msgid "Out of disk space while uploading."
+msgstr "Sem espaço em disco durante o envio."
+
+#: includes/class-pbk-upload.php:95
+msgid "Could not finish the upload."
+msgstr "Não foi possível concluir o envio."
+
+#: includes/class-pbk-upload.php:140
+msgid "The chunk did not arrive. Retrying..."
+msgstr "A parte não chegou. Tentando novamente..."

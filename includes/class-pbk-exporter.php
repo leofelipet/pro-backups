@@ -125,7 +125,7 @@ class PBK_Exporter {
 		}
 		fclose( $list );
 		$s['files'] = array( 'count' => $count, 'bytes' => $bytes, 'pos' => 0, 'done_bytes' => 0, 'cur' => array() );
-		$job->log( sprintf( '%d files (%s) to back up.', $count, size_format( $bytes ) ) );
+		$job->log( sprintf( /* translators: 1: number of files, 2: total size */ __( '%1$d files (%2$s) to back up.', 'pro-backups' ), $count, size_format( $bytes ) ) );
 		$s['step'] = 'files';
 	}
 
@@ -223,7 +223,7 @@ class PBK_Exporter {
 		fclose( $list );
 		$job->status( __( 'Backing up files...', 'pro-backups' ), 2 + 70 * $f['done_bytes'] / max( 1, $f['bytes'] ) );
 		if ( $all ) {
-			$job->log( 'Files done.' );
+			$job->log( __( 'Files done.', 'pro-backups' ) );
 			$s['step'] = self::has( $s, 'database' ) ? 'package' : 'database';
 		}
 	}
@@ -233,7 +233,7 @@ class PBK_Exporter {
 		$exporter = new PBK_Sql_Exporter( $wpdb->prefix, self::row_filters( $s ) );
 		if ( ! isset( $s['db'] ) ) {
 			$s['db'] = array( 'table' => 0, 'tables' => $exporter->tables( $s['options']['exclude_tables'] ) );
-			$job->log( sprintf( 'Exporting %d tables.', count( $s['db']['tables'] ) ) );
+			$job->log( sprintf( /* translators: %d: number of tables */ __( 'Exporting %d tables.', 'pro-backups' ), count( $s['db']['tables'] ) ) );
 		}
 		$done = $exporter->run( $job->dir() . '/database.sql', $s['db'], $deadline );
 		$job->status( __( 'Backing up database...', 'pro-backups' ), 72 + 13 * $s['db']['table'] / max( 1, count( $s['db']['tables'] ) ) );

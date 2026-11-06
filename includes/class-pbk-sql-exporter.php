@@ -66,7 +66,7 @@ class PBK_Sql_Exporter {
 		global $wpdb;
 		$fh = fopen( $file, 'ab' );
 		if ( ! $fh ) {
-			throw new PBK_Exception( 'Could not write the database dump.' );
+			throw new PBK_Exception( __( 'Could not write the database dump.', 'pro-backups' ) );
 		}
 		while ( $state['table'] < count( $state['tables'] ) ) {
 			$table = $state['tables'][ $state['table'] ];
@@ -130,7 +130,7 @@ class PBK_Sql_Exporter {
 		$sql .= $pk ? ' ORDER BY ' . self::ident( $pk ) . ' LIMIT ' . self::ROWS : ' LIMIT ' . (int) $state['offset'] . ', ' . self::ROWS;
 		$rows = $wpdb->get_results( $sql, ARRAY_A );
 		if ( $wpdb->last_error ) {
-			throw new PBK_Exception( 'Database error while exporting ' . $name . ': ' . $wpdb->last_error );
+			throw new PBK_Exception( sprintf( /* translators: 1: table name, 2: database error */ __( 'Database error while exporting %1$s: %2$s', 'pro-backups' ), $name, $wpdb->last_error ) );
 		}
 		if ( ! $rows ) {
 			return true;
@@ -177,7 +177,7 @@ class PBK_Sql_Exporter {
 
 	private function put( $fh, $data ) {
 		if ( fwrite( $fh, $data ) !== strlen( $data ) ) {
-			throw new PBK_Exception( 'Out of disk space while exporting the database.' );
+			throw new PBK_Exception( __( 'Out of disk space while exporting the database.', 'pro-backups' ) );
 		}
 	}
 }

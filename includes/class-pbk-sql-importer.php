@@ -37,7 +37,7 @@ class PBK_Sql_Importer {
 		$state += array( 'pos' => 0, 'queries' => 0, 'failed' => 0, 'errors' => array() );
 		$fh = @fopen( $file, 'rb' );
 		if ( ! $fh ) {
-			throw new PBK_Exception( 'Could not open the database file.' );
+			throw new PBK_Exception( __( 'Could not open the database file.', 'pro-backups' ) );
 		}
 		fseek( $fh, $state['pos'] );
 		$this->exec_quiet( "SET SESSION sql_mode = ''" );

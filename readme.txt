@@ -25,6 +25,7 @@ Pro Backups creates and restores complete WordPress backups (database, media, pl
 * Reset tools (media, plugins, themes, database) that always make a full backup first.
 * WP-CLI: `wp pro-backups backup`, `wp pro-backups restore`, `wp pro-backups list`, `wp pro-backups delete`.
 * Works on MySQL, MariaDB and SQLite (SQLite Database Integration).
+* Translations included: Brazilian Portuguese (pt_BR).
 
 Every long task is split into short requests, so it works on hosts with a 30 second time limit.
 
@@ -62,4 +63,4 @@ In the database (options table), so that backups can run unattended. Leave it em
 == Changelog ==
 
 = 0.1.0 =
-* First release: backup, restore (unlimited size), schedules, retention, reset tools, WP-CLI.
+* First release: backup, restore (unlimited size), schedules, retention, reset tools, WP-CLI, pt_BR translation.

@@ -183,7 +183,7 @@ class PBK_Schedules {
 			}
 		}
 		if ( $deleted && $job ) {
-			$job->log( 'Retention removed: ' . implode( ', ', $deleted ) );
+			$job->log( sprintf( /* translators: %s: list of file names */ __( 'Retention removed: %s', 'pro-backups' ), implode( ', ', $deleted ) ) );
 			$job->save();
 		}
 		return $deleted;

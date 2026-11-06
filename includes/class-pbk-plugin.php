@@ -17,6 +17,10 @@ class PBK_Plugin {
 	const NONCE = 'pbk';
 
 	public static function init() {
+		// Bundled translations (languages/); translate.wordpress.org files in wp-content/languages win when present.
+		add_action( 'init', function () {
+			load_plugin_textdomain( 'pro-backups', false, dirname( PBK_BASENAME ) . '/languages' );
+		}, 0 );
 		foreach ( array( 'run', 'input', 'cancel' ) as $action ) {
 			add_action( "wp_ajax_pbk_$action", array( __CLASS__, "ajax_$action" ) );
 			add_action( "wp_ajax_nopriv_pbk_$action", array( __CLASS__, "ajax_$action" ) );
