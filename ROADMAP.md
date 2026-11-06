@@ -108,7 +108,7 @@ vários GB sem timeout.
       requisições — agora importada de forma atômica), backup de 2,2 GB por HTTP (`big.sh`). CI no GitHub Actions.
 - [x] Publicação no wordpress.org (sem trialware; sendo 100% free não há problema): pacote pronto —
       `readme.txt` no formato oficial, `uninstall.php`, `languages/pro-backups.pot`, **Plugin Check sem erros**,
-      zip em `bin/build-zip.sh` (tag/release no GitHub ainda não criados). A submissão em wordpress.org/plugins/developers/add/ precisa
+      zip em `bin/build-zip.sh` (release [v0.1.0](https://github.com/leofelipet/pro-backups/releases/tag/v0.1.0) no GitHub). A submissão em wordpress.org/plugins/developers/add/ precisa
       ser feita pelo dono da conta wordpress.org (revisão manual da equipe de plugins).
 - [x] Tradução pt_BR: todas as mensagens (inclusive erros e log das tarefas) passam por `__()`;
       `languages/pro-backups-pt_BR.po/.mo/.l10n.php` incluídos no pacote (188 strings). Depois de publicado
